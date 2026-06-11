@@ -195,69 +195,8 @@ export default function Home({ onNavigate, showSplash }: HomeProps) {
   return (
     <div className="relative min-h-screen text-[#ECE6F4] flex flex-col justify-start overflow-hidden pb-24 select-none">
       
-      {/* 1. EMBERS SPARK DECK CANVAS */}
-      <canvas 
-        ref={canvasRef} 
-        className="absolute inset-0 pointer-events-none z-10 opacity-70"
-      />
-
-      {/* 2. DRIFTING MONOSPACE CODE SNIPPETS */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden z-[2]">
-        {snippets.map((snip) => (
-          <motion.div
-            key={snip.id}
-            initial={{ y: "110vh", opacity: 0 }}
-            animate={{ 
-              y: "-10vh", 
-              opacity: [0, 0.15, 0.15, 0] 
-            }}
-            transition={{
-              duration: snip.duration,
-              delay: snip.delay,
-              repeat: Infinity,
-              ease: "linear"
-            }}
-            className="absolute font-mono pointer-events-none"
-            style={{
-              left: `${snip.x}%`,
-              fontSize: `${snip.fontSize}px`,
-              color: "rgba(236, 230, 244, 0.12)",
-              textShadow: "0 0 8px rgba(204, 0, 255, 0.15)"
-            }}
-          >
-            {snip.text}
-          </motion.div>
-        ))}
-      </div>
-
-      {/* 3. RESPONSIVE ATMOSPHERE ORBS */}
-      {/* Centered pulsing soft violet orb */}
-      <motion.div
-        animate={{
-          scale: [1, 1.08, 1],
-          opacity: [0.12, 0.16, 0.12],
-        }}
-        transition={{
-          duration: 12,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] sm:w-[800px] h-[350px] sm:h-[800px] rounded-full blur-[140px] pointer-events-none z-[1]"
-        style={{
-          backgroundColor: "#7B2FBE",
-        }}
-      />
-
-      {/* Fixed bottom-left magenta orb */}
-      <div 
-        className="absolute bottom-[-100px] left-[-100px] w-[250px] sm:w-[400px] h-[250px] sm:h-[400px] rounded-full blur-[100px] pointer-events-none z-[1] opacity-[0.08]"
-        style={{
-          backgroundColor: "#CC00FF",
-        }}
-      />
-
-      {/* 4. VIDEO HERO BACKGROUND SYSTEM (Absolute positioned behind content) */}
-      <div className="absolute inset-0 w-full h-full overflow-hidden z-0 pointer-events-none bg-[#0A0010]">
+      {/* 4. VIDEO HERO BACKGROUND SYSTEM (Absolute positioned behind content and fully clean) */}
+      <div className="absolute inset-0 w-full h-full overflow-hidden z-0 pointer-events-none">
         <video 
           ref={videoRef}
           autoPlay 
@@ -265,7 +204,7 @@ export default function Home({ onNavigate, showSplash }: HomeProps) {
           loop 
           playsInline 
           preload="auto"
-          className="w-full h-full object-cover opacity-45 transition-opacity duration-1000 ease-in-out font-sans"
+          className="w-full h-full object-cover opacity-100 transition-opacity duration-1000 ease-in-out font-sans"
         >
           <source src="/bg-video.mp4" type="video/mp4" />
           Your browser does not support the video tag.

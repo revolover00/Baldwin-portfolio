@@ -1,5 +1,5 @@
-import React from "react";
-import { motion } from "motion/react";
+import React, { useState, useEffect, useRef } from "react";
+import { motion, animate, useInView } from "motion/react";
 import { 
   Code2, 
   Database, 
@@ -12,6 +12,67 @@ import {
   Twitter,
   Share2
 } from "lucide-react";
+
+// Premium count-up counter executing flawlessly when scrolled into view
+function CountUp({ value }: { value: string }) {
+  const [count, setCount] = useState(0);
+  const elementRef = useRef<HTMLSpanElement | null>(null);
+  const isInView = useInView(elementRef, { once: true, margin: "-10px" });
+  const parsed = value.match(/^([^\d]*)(\d+)([^\d]*)$/);
+
+  useEffect(() => {
+    if (!isInView || !parsed) return;
+    const target = parseInt(parsed[2], 10);
+    
+    // Ensure we start strictly at 0
+    setCount(0);
+    
+    let animationFrameId: number;
+    const delayTimer = setTimeout(() => {
+      const startTime = performance.now();
+      const duration = 1500; // 1.5 seconds of high-performance smooth counting
+
+      const tick = (now: number) => {
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        // Exquisite easeOutQuart ease for a premium decelerating count-up
+        const ease = 1 - Math.pow(1 - progress, 4);
+        setCount(Math.floor(ease * target));
+
+        if (progress < 1) {
+          animationFrameId = requestAnimationFrame(tick);
+        } else {
+          setCount(target); // Force exactly the target number to settle beautifully
+        }
+      };
+
+      animationFrameId = requestAnimationFrame(tick);
+    }, 150);
+
+    return () => {
+      clearTimeout(delayTimer);
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
+    };
+  }, [isInView, value]);
+
+  if (!parsed) {
+    return <span>{value}</span>;
+  }
+
+  const prefix = parsed[1];
+  const suffix = parsed[3];
+
+  return (
+    <span ref={elementRef} className="tabular-nums inline-block font-mono">
+      {prefix}
+      {isInView ? count : 0}
+      {suffix}
+    </span>
+  );
+}
 
 export default function About() {
   const skillCategories = [
@@ -33,7 +94,7 @@ export default function About() {
   ];
 
   const stats = [
-    { label: "GitHub Repos", value: "17+" },
+    { label: "GitHub Repos", value: "+18" },
     { label: "Primary Stack", value: "TypeScript" },
     { label: "Deployments", value: "Vercel" },
     { label: "Approach", value: "AI-powered builds" }
@@ -196,9 +257,23 @@ export default function About() {
             {skillCategories.map((category, idx) => (
               <motion.div 
                 key={idx}
-                whileHover={{ scale: 0.95 }}
-                whileTap={{ scale: 0.91 }}
-                transition={{ duration: 0.2 }}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-40px" }}
+                variants={{
+                  hidden: { opacity: 0, y: 25 },
+                  visible: {
+                    opacity: 1,
+                    y: 0,
+                    transition: {
+                      duration: 0.6,
+                      staggerChildren: 0.15,
+                      delayChildren: 0.4
+                    }
+                  }
+                }}
+                whileHover={{ scale: 0.97 }}
+                whileTap={{ scale: 0.94 }}
                 className="p-6 rounded-2xl border cursor-pointer select-none"
                 style={{
                   backgroundColor: "rgba(10, 0, 16, 0.8)",
@@ -213,9 +288,22 @@ export default function About() {
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {category.skills.map((skill, sIdx) => (
-                    <span 
+                    <motion.span 
                       key={sIdx}
-                      className="px-3 py-1 rounded-full text-xs font-medium border"
+                      variants={{
+                        hidden: { opacity: 0, scale: 0.75, y: 12 },
+                        visible: { 
+                          opacity: 1, 
+                          scale: 1, 
+                          y: 0,
+                          transition: { 
+                            type: "spring", 
+                            stiffness: 150, 
+                            damping: 12 
+                          } 
+                        }
+                      }}
+                      className="px-3 py-1 rounded-full text-xs font-medium border inline-block"
                       style={{
                         backgroundColor: "rgba(123, 47, 190, 0.1)",
                         borderColor: "rgba(204, 0, 255, 0.2)",
@@ -223,7 +311,7 @@ export default function About() {
                       }}
                     >
                       {skill}
-                    </span>
+                    </motion.span>
                   ))}
                 </div>
               </motion.div>
@@ -233,43 +321,107 @@ export default function About() {
 
         {/* Section 4 — Stats */}
         <motion.section 
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: {
+                staggerChildren: 0.1,
+                delayChildren: 0.1
+              }
+            }
+          }}
           className="space-y-6"
         >
           <div className="flex items-center space-x-3">
             <div className="p-2.5 rounded-xl flex items-center justify-center animate-pulse" style={{ backgroundColor: "rgba(204, 0, 255, 0.1)" }}>
               <BarChart3 size={20} style={{ color: "#CC00FF" }} />
             </div>
-            <h3 className="text-xl md:text-2xl font-bold tracking-tight" style={{ color: "#E8D5F5" }}>
-              Metrics & Info
+            <h3 className="text-xl md:text-2xl font-bold tracking-tight flex flex-wrap" style={{ color: "#E8D5F5" }}>
+              {"Metrics & Info".split(" ").map((word, wordIdx) => (
+                <motion.span
+                  key={wordIdx}
+                  variants={{
+                    hidden: { opacity: 0, y: 12 },
+                    visible: { 
+                      opacity: 1, 
+                      y: 0, 
+                      transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: wordIdx * 0.1 } 
+                    }
+                  }}
+                  className="mr-2 inline-block"
+                >
+                  {word}
+                </motion.span>
+              ))}
             </h3>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <motion.div 
+            variants={{
+              hidden: {},
+              visible: {
+                transition: {
+                  staggerChildren: 0.12
+                }
+              }
+            }}
+            className="grid grid-cols-2 md:grid-cols-4 gap-4"
+          >
             {stats.map((stat, idx) => (
               <motion.div 
                 key={idx}
-                whileHover={{ scale: 0.93 }}
-                whileTap={{ scale: 0.88 }}
-                transition={{ duration: 0.2 }}
-                className="p-5 rounded-2xl border flex flex-col justify-center h-28 cursor-pointer select-none"
+                variants={{
+                  hidden: { opacity: 0, y: 30, scale: 0.94 },
+                  visible: { 
+                    opacity: 1, 
+                    y: 0, 
+                    scale: 1,
+                    transition: { 
+                      type: "spring", 
+                      stiffness: 110, 
+                      damping: 16 
+                    } 
+                  },
+                }}
+                whileHover={{ scale: 1.03, y: -4, boxShadow: "0 10px 25px rgba(204, 0, 255, 0.15)" }}
+                whileTap={{ scale: 0.97 }}
+                className="p-5 rounded-2xl border flex flex-col justify-center h-28 cursor-pointer select-none transition-shadow"
                 style={{
                   backgroundColor: "rgba(123, 47, 190, 0.08)",
-                  borderColor: "rgba(123, 47, 190, 0.15)"
+                  borderColor: "rgba(123, 47, 190, 0.25)"
                 }}
               >
-                <span className="text-xs font-medium tracking-wide uppercase mb-1" style={{ color: "#A78BCA" }}>
+                <motion.span 
+                  variants={{
+                    hidden: { opacity: 0, x: -8 },
+                    visible: { opacity: 1, x: 0, transition: { duration: 0.4, ease: "easeOut" } }
+                  }}
+                  className="text-xs font-medium tracking-wide uppercase mb-1 block" 
+                  style={{ color: "#A78BCA" }}
+                >
                   {stat.label}
-                </span>
-                <span className="text-lg md:text-xl font-black tracking-tight" style={{ color: "#E8D5F5" }}>
-                  {stat.value}
-                </span>
+                </motion.span>
+                <motion.span 
+                  variants={{
+                    hidden: { opacity: 0, y: 8 },
+                    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut", delay: 0.15 } }
+                  }}
+                  className="text-lg md:text-xl font-black tracking-tight block" 
+                  style={{ color: "#E8D5F5" }}
+                >
+                  {stat.value.match(/\d+/) ? (
+                    <CountUp value={stat.value} />
+                  ) : (
+                    stat.value
+                  )}
+                </motion.span>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </motion.section>
 
         {/* Section 5 — Mission */}

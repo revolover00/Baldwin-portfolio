@@ -14,9 +14,24 @@ export default function ProjectDetail({ projectId, onNavigate }: ProjectDetailPr
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const found = Store.getProjectById(projectId);
-    setProject(found || null);
-    setIsLoading(false);
+    let active = true;
+    const loadProject = async () => {
+      setIsLoading(true);
+      let found = Store.getProjectById(projectId);
+      if (!found) {
+        // Cache is empty or cold start; fetch projects actively from the database/API proxy layer
+        const all = await Store.getProjects();
+        found = all.find(p => p.id === projectId);
+      }
+      if (active) {
+        setProject(found || null);
+        setIsLoading(false);
+      }
+    };
+    loadProject();
+    return () => {
+      active = false;
+    };
   }, [projectId]);
 
   if (isLoading) {

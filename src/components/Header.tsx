@@ -4,9 +4,10 @@ import { motion } from "motion/react";
 interface HeaderProps {
   currentTab: string; // e.g. 'home', 'work', 'about', 'contact', or 'project'
   onNavigate: (route: string) => void;
+  showSplash?: boolean;
 }
 
-export default function Header({ currentTab, onNavigate }: HeaderProps) {
+export default function Header({ currentTab, onNavigate, showSplash }: HeaderProps) {
   const [logoFailed, setLogoFailed] = useState(false);
 
   const navItems = [
@@ -35,15 +36,26 @@ export default function Header({ currentTab, onNavigate }: HeaderProps) {
         {/* Left Side: Logo (src="/logo.webp") */}
         <div 
           onClick={() => handleNavClick("#home")}
-          className="flex items-center cursor-pointer z-10 group"
+          className="flex items-center cursor-pointer z-10 group min-w-[120px] h-8 relative"
         >
           {!logoFailed ? (
-            <img 
-              src="/logo.webp" 
-              alt="Baldwin Portfolio" 
-              className="h-8 w-auto object-contain transition-all duration-300 group-hover:scale-[1.03]"
-              onError={() => setLogoFailed(true)}
-            />
+            !showSplash && (
+              <motion.div 
+                layoutId="header-logo"
+                className="h-8 flex items-center justify-center"
+                transition={{
+                  duration: 1.2,
+                  ease: [0.16, 1, 0.3, 1]
+                }}
+              >
+                <img 
+                  src="/logo.webp" 
+                  alt="Baldwin Portfolio" 
+                  className="h-8 w-auto object-contain transition-all duration-300 group-hover:scale-[1.03]"
+                  onError={() => setLogoFailed(true)}
+                />
+              </motion.div>
+            )
           ) : (
             /* Premium Fallback Design */
             <div className="flex items-center space-x-2">

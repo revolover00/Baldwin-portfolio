@@ -118,7 +118,7 @@ export const Store = {
       throw new Error("Supabase credentials are not configured yet. Please configure VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in your settings.");
     }
 
-    const id = Math.random().toString(36).substring(2, 9);
+    const id = Date.now().toString(36) + Math.random().toString(36).substring(2, 7);
     
     // Embed the sender's email directly into the message body content as part of the payload
     const enhancedBody = `[Sender Email: ${msg.senderEmail}]\n\n${msg.body}`;

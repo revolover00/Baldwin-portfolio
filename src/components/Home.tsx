@@ -4,6 +4,7 @@ import { ArrowRight, MessageSquare, Twitter, Linkedin, Instagram, Youtube } from
 
 interface HomeProps {
   onNavigate: (route: string) => void;
+  showSplash?: boolean;
 }
 
 interface Snippet {
@@ -25,7 +26,7 @@ interface Ember {
   color: string;
 }
 
-export default function Home({ onNavigate }: HomeProps) {
+export default function Home({ onNavigate, showSplash }: HomeProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [snippets, setSnippets] = useState<Snippet[]>([]);
@@ -274,8 +275,8 @@ export default function Home({ onNavigate }: HomeProps) {
             {/* Glowing Purple Laser Sword decoration */}
             <motion.div
               initial={{ scaleX: 0, opacity: 0 }}
-              animate={{ scaleX: 1, opacity: 1 }}
-              transition={{ type: "spring", stiffness: 45, damping: 15, delay: 0.3 }}
+              animate={showSplash ? { scaleX: 0, opacity: 0 } : { scaleX: 1, opacity: 1 }}
+              transition={{ type: "spring", stiffness: 45, damping: 15, delay: 0.2 }}
               className="my-6 flex items-center justify-start origin-left relative"
             >
               <svg 

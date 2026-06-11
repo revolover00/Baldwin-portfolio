@@ -68,18 +68,13 @@ export default function App() {
         fontFamily: "'Inter', sans-serif"
       }}
     >
-      <AnimatePresence mode="wait">
-        {showSplash ? (
+      <AnimatePresence>
+        {showSplash && (
           <Splash key="splash" onComplete={() => setShowSplash(false)} />
-        ) : (
-          <motion.div
-            key="main-app"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.6 }}
-            className="min-h-screen relative flex flex-col w-full"
-          >
+        )}
+      </AnimatePresence>
+
+      <div className="min-h-screen relative flex flex-col w-full">
             {/* Structural background elements: Global dynamic grid backplane - only for Home page */}
             {route.tab === "home" && (
               <>
@@ -130,7 +125,7 @@ export default function App() {
             </div>
 
             {/* Render header if not in deep full project screen or keep it global */}
-            <Header currentTab={route.tab} onNavigate={navigateToRoute} />
+            <Header currentTab={route.tab} onNavigate={navigateToRoute} showSplash={showSplash} />
 
             {/* Primary content router with smooth 3D book page-flip transitions for pages and luxurious zoom-in for project details */}
             <div 
@@ -180,7 +175,7 @@ export default function App() {
                   }
                   className="w-full h-full"
                 >
-                  {route.tab === "home" && <Home onNavigate={navigateToRoute} />}
+                  {route.tab === "home" && <Home onNavigate={navigateToRoute} showSplash={showSplash} />}
                   {route.tab === "work" && <Work onNavigate={navigateToRoute} />}
                   {route.tab === "about" && <About />}
                   {route.tab === "contact" && <Contact />}
@@ -256,9 +251,7 @@ export default function App() {
 
               </div>
             </footer>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      </div>
     </div>
   );
 }

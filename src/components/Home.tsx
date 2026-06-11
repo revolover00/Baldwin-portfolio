@@ -206,7 +206,7 @@ export default function Home({ onNavigate, showSplash }: HomeProps) {
           preload="auto"
           className="w-full h-full object-cover opacity-100 transition-opacity duration-1000 ease-in-out font-sans"
         >
-          <source src="/bg-video.mp4" type="video/mp4" />
+          <source src="https://res.cloudinary.com/dcoif7wax/video/upload/1786_eyyo5q.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
       </div>

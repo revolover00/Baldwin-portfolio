@@ -89,7 +89,7 @@ export default function ProjectDetail({ projectId, onNavigate }: ProjectDetailPr
     >
       {/* Simple Sub-Navbar */}
       <header 
-        className="sticky top-20 z-40 backdrop-blur-md border-b px-4 py-4 md:px-8"
+        className="sticky top-14 sm:top-20 z-40 backdrop-blur-md border-b px-4 py-3 sm:py-4 md:px-8"
         style={{
           backgroundColor: "rgba(10, 0, 16, 0.85)",
           borderColor: "rgba(123, 47, 190, 0.15)"
@@ -98,29 +98,28 @@ export default function ProjectDetail({ projectId, onNavigate }: ProjectDetailPr
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <button
             onClick={() => onNavigate("#work")}
-            className="flex items-center space-x-2 text-xs font-mono font-bold uppercase tracking-wider transition-colors duration-300 group cursor-pointer"
+            className="flex items-center space-x-2 text-[10px] sm:text-xs font-mono font-bold uppercase tracking-wider transition-colors duration-300 group cursor-pointer"
             style={{ color: "#A78BCA" }}
             onMouseEnter={(e) => e.currentTarget.style.color = "#E8D5F5"}
             onMouseLeave={(e) => e.currentTarget.style.color = "#A78BCA"}
           >
-            <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
+            <ArrowLeft size={14} className="group-hover:-translate-x-0.5 transition-transform sm:w-4 sm:h-4" />
             <span>Back to Work</span>
           </button>
-          <div className="text-[10px] font-mono tracking-widest text-[#6B4F8A]/60 uppercase">
-            Project Node: ID_#{project.id.toUpperCase()}
+          <div className="text-[8px] sm:text-[10px] font-mono tracking-widest text-[#6B4F8A]/60 uppercase overflow-hidden text-ellipsis whitespace-nowrap max-w-[100px] sm:max-w-none">
+            ID_#{project.id.toUpperCase()}
           </div>
         </div>
       </header>
 
-      {/* Main Container */}
-      <main className="max-w-5xl mx-auto px-4 pt-12 md:px-8 space-y-12">
+      <main className="max-w-5xl mx-auto px-4 pt-8 sm:pt-12 md:px-8 space-y-8 sm:space-y-12">
         
         {/* Project Header Metrics */}
-        <section className="space-y-4">
-          <div className="flex flex-wrap items-center gap-3">
+        <section className="space-y-3 sm:space-y-4">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
             {/* Custom Category Badge - completely override greens */}
             <span
-              className="text-xs font-mono font-bold uppercase tracking-wider px-3 py-1 rounded-full border"
+              className="text-[9px] sm:text-xs font-mono font-bold uppercase tracking-wider px-2 py-0.5 sm:px-3 sm:py-1 rounded-full border"
               style={{
                 backgroundColor: "rgba(204, 0, 255, 0.1)",
                 borderColor: "rgba(204, 0, 255, 0.2)",
@@ -131,14 +130,14 @@ export default function ProjectDetail({ projectId, onNavigate }: ProjectDetailPr
             </span>
 
             {/* Subtitle tag */}
-            <span className="text-xs font-mono text-[#A78BCA]/80">
+            <span className="text-[9px] sm:text-xs font-mono text-[#A78BCA]/80">
               {project.subtitle}
             </span>
           </div>
 
           {/* Project Title with custom gradient styling */}
           <h1 
-            className="text-3xl md:text-5xl font-black tracking-tight"
+            className="text-2xl sm:text-3xl md:text-5xl font-black tracking-tight"
             style={{
               backgroundImage: "linear-gradient(to right, #E8D5F5, #A78BCA)",
               WebkitBackgroundClip: "text",
@@ -191,29 +190,29 @@ export default function ProjectDetail({ projectId, onNavigate }: ProjectDetailPr
           </div>
 
           {/* Sidebar Specifications block */}
-          <div className="md:col-span-4 space-y-8">
+          <div className="md:col-span-4 space-y-6 sm:space-y-8">
             {/* Tech details card */}
             <div 
-              className="p-6 rounded-xl border space-y-5"
+              className="p-4 sm:p-6 rounded-xl border space-y-4 sm:space-y-5"
               style={{
                 borderColor: "rgba(123, 47, 190, 0.15)",
                 backgroundColor: "rgba(10, 0, 16, 0.7)"
               }}
             >
-              <h4 className="text-xs font-mono font-bold tracking-widest uppercase text-[#E8D5F5]">
+              <h4 className="text-[10px] sm:text-xs font-mono font-bold tracking-widest uppercase text-[#E8D5F5]">
                 METRICS & TECH SPECS
               </h4>
               
-              <div className="space-y-4">
+              <div className="space-y-3 sm:space-y-4">
                 <div>
-                  <span className="text-[10px] font-mono uppercase tracking-wider text-[#6B4F8A] block mb-1.5">
+                  <span className="text-[9px] sm:text-[10px] font-mono uppercase tracking-wider text-[#6B4F8A] block mb-1 sm:mb-1.5">
                     Engineered With:
                   </span>
                   <div className="flex flex-wrap gap-1.5">
                     {project.skills.map(skill => (
                       <span 
                         key={skill}
-                        className="text-[10px] font-mono px-2 py-0.5 rounded border"
+                        className="text-[8px] sm:text-[10px] font-mono px-1.5 py-0.5 rounded border"
                         style={{
                           backgroundColor: "rgba(123, 47, 190, 0.05)",
                           borderColor: "rgba(123, 47, 190, 0.15)",
@@ -229,23 +228,23 @@ export default function ProjectDetail({ projectId, onNavigate }: ProjectDetailPr
                 <div className="h-px" style={{ backgroundColor: "rgba(123, 47, 190, 0.15)" }} />
 
                 <div>
-                  <span className="text-[10px] font-mono uppercase tracking-wider text-[#6B4F8A] block mb-1">
+                  <span className="text-[9px] sm:text-[10px] font-mono uppercase tracking-wider text-[#6B4F8A] block mb-1">
                     Environment Deployment:
                   </span>
-                  <div className="flex items-center space-x-1.5 text-xs font-mono text-[#E8D5F5]">
-                    <BadgeCheck size={14} className="text-[#CC00FF]" />
+                  <div className="flex items-center space-x-1.5 text-[10px] sm:text-xs font-mono text-[#E8D5F5]">
+                    <BadgeCheck size={12} className="text-[#CC00FF] sm:w-3.5 sm:h-3.5" />
                     <span>Hardware Edge Accelerated</span>
                   </div>
                 </div>
               </div>
 
               {project.websiteUrl && (
-                <div className="pt-2">
+                <div className="pt-1 sm:pt-2">
                   <a
                     href={project.websiteUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="w-full py-3.5 px-4 rounded-lg text-xs font-bold uppercase tracking-wider transition-all duration-300 flex items-center justify-center space-x-2 shadow-lg hover:bg-white cursor-pointer"
+                    className="w-full py-2.5 sm:py-3.5 px-4 rounded-lg text-[10px] sm:text-xs font-bold uppercase tracking-wider transition-all duration-300 flex items-center justify-center space-x-2 shadow-lg hover:bg-white cursor-pointer"
                     style={{
                       backgroundColor: "#E8D5F5",
                       color: "#0A0010"
@@ -258,7 +257,7 @@ export default function ProjectDetail({ projectId, onNavigate }: ProjectDetailPr
                     }}
                   >
                     <span>Launch Live demo</span>
-                    <Globe size={14} />
+                    <Globe size={12} className="sm:w-3.5 sm:h-3.5" />
                   </a>
                 </div>
               )}

@@ -110,13 +110,15 @@ export default function Home({ onNavigate, showSplash }: HomeProps) {
     ];
 
     const spawnEmber = () => {
-      if (embers.length > 25) return; // Highly optimized: Limit max active embers to 25
+      const isMobile = window.innerWidth < 768;
+      const maxEmbers = isMobile ? 12 : 25;
+      if (embers.length > maxEmbers) return; // Highly optimized: Limit max active embers
       const rColor = colors[Math.floor(Math.random() * colors.length)];
       embers.push({
         x: Math.random() * canvas.width,
         y: canvas.height + 20,
-        size: 1 + Math.random() * 2.5,
-        speedY: -(0.4 + Math.random() * 1.2),
+        size: 1 + Math.random() * (isMobile ? 1.5 : 2.5),
+        speedY: -(0.4 + Math.random() * (isMobile ? 0.8 : 1.2)),
         opacity: 0.15 + Math.random() * 0.45,
         fadeSpeed: 0.001 + Math.random() * 0.002,
         color: rColor
@@ -126,8 +128,9 @@ export default function Home({ onNavigate, showSplash }: HomeProps) {
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Spawn new embers randomly
-      if (Math.random() < 0.12) {
+      const isMobile = window.innerWidth < 768;
+      // Spawn new embers randomly (lower frequency on mobile)
+      if (Math.random() < (isMobile ? 0.06 : 0.12)) {
         spawnEmber();
       }
 
@@ -138,14 +141,14 @@ export default function Home({ onNavigate, showSplash }: HomeProps) {
         // horizontal wander
         ember.x += Math.sin(ember.y / 30) * 0.25;
 
-        // HIGH PERFORMANCE GLOW EFFECT: Use hardware-accelerated dual overlapping arc fills
-        // Instead of extremely slow and laggy CPU-bound ctx.shadowBlur!
-        
-        // Outer soft glow aura
-        ctx.beginPath();
-        ctx.arc(ember.x, ember.y, ember.size * 2.5, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(204, 0, 255, ${ember.opacity * 0.15})`;
-        ctx.fill();
+        // HIGH PERFORMANCE GLOW EFFECT
+        if (!isMobile) {
+          // Outer soft glow aura only on desktop for peak performance
+          ctx.beginPath();
+          ctx.arc(ember.x, ember.y, ember.size * 2.5, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(204, 0, 255, ${ember.opacity * 0.15})`;
+          ctx.fill();
+        }
 
         // Core bright ember
         ctx.beginPath();
@@ -179,12 +182,12 @@ export default function Home({ onNavigate, showSplash }: HomeProps) {
       </div>
 
       {/* Hero Foreground Content Canvas */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-20 flex flex-col items-center justify-center py-20">
-        <div className="flex flex-col items-center text-center gap-8 max-w-3xl">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-20 flex flex-col items-center justify-center py-12 sm:py-20">
+        <div className="flex flex-col items-center text-center gap-6 sm:gap-8 max-w-3xl">
           
           {/* Main Hero Title */}
           <motion.h1 
-            className="text-5xl sm:text-7xl md:text-8xl font-extrabold tracking-tight leading-[1.05]"
+            className="text-3xl sm:text-7xl md:text-8xl font-extrabold tracking-tight leading-[1.05]"
             style={{
               fontFamily: "'Syne', sans-serif"
             }}
@@ -199,7 +202,7 @@ export default function Home({ onNavigate, showSplash }: HomeProps) {
               </span>
             )}
             <span 
-              className={`inline-block w-[3px] h-[0.8em] align-middle bg-[#CC00FF] ml-1 sm:ml-2 ${
+              className={`inline-block w-[2.5px] h-[0.8em] align-middle bg-[#CC00FF] ml-1 sm:ml-2 ${
                 typedLength < fullTitle.length ? "animate-pulse" : "animate-[ping_1.2s_infinite_normal_both] opacity-80"
               }`}
             />
@@ -207,7 +210,7 @@ export default function Home({ onNavigate, showSplash }: HomeProps) {
 
           {/* Subtitle description with elegant line height */}
           <motion.p
-            className="text-base sm:text-lg md:text-xl font-light leading-relaxed text-[#A78BCA] max-w-2xl"
+            className="text-xs sm:text-lg md:text-xl font-light leading-relaxed text-[#A78BCA] max-w-2xl px-4 sm:px-0"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
@@ -220,7 +223,7 @@ export default function Home({ onNavigate, showSplash }: HomeProps) {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.45 }}
-            className="flex flex-row flex-wrap gap-4 items-center justify-center mt-2"
+            className="flex flex-row flex-wrap gap-3 sm:gap-4 items-center justify-center mt-1"
           >
             {/* View selected work */}
             <motion.button
@@ -228,10 +231,10 @@ export default function Home({ onNavigate, showSplash }: HomeProps) {
               whileTap={{ scale: 0.97 }}
               transition={{ type: "spring", stiffness: 400, damping: 15 }}
               onClick={() => onNavigate("#work")}
-              className="px-8 py-4 rounded-full text-xs font-bold uppercase tracking-widest transition-all cursor-pointer flex items-center space-x-2 bg-white text-[#06010A]"
+              className="px-6 sm:px-8 py-3 sm:py-4 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all cursor-pointer flex items-center space-x-2 bg-white text-[#06010A]"
             >
               <span>View Selected Work</span>
-              <ArrowRight size={13} />
+              <ArrowRight size={12} />
             </motion.button>
 
             {/* Contact button */}
@@ -245,10 +248,10 @@ export default function Home({ onNavigate, showSplash }: HomeProps) {
               whileTap={{ scale: 0.97 }}
               transition={{ type: "spring", stiffness: 400, damping: 15 }}
               onClick={() => onNavigate("#contact")}
-              className="px-8 py-4 rounded-full text-xs font-bold uppercase tracking-widest transition-all border cursor-pointer flex items-center space-x-2 backdrop-blur-md bg-white/5 border-white/20 text-white"
+              className="px-6 sm:px-8 py-3 sm:py-4 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all border cursor-pointer flex items-center space-x-2 backdrop-blur-md bg-white/5 border-white/20 text-white"
             >
               <span>Contact Me</span>
-              <MessageSquare size={13} />
+              <MessageSquare size={12} />
             </motion.button>
           </motion.div>
 

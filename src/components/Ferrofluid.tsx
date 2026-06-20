@@ -246,12 +246,16 @@ const Ferrofluid: React.FC<FerrofluidProps> = ({
 
     let renderer: Renderer;
     try {
-      // Cap DPR to 1.0 (to avoid 3x retina overhead on full screen) and disable heavy MSAA antialiasing
-      const computedDpr = Math.min(1.0, dpr ?? (typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1));
+      // Cap DPR for performance: Desktop gets up to 1.0, Mobile gets 0.75 for peak performance
+      const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+      const baseDpr = isMobile ? 0.75 : 1.0;
+      const computedDpr = Math.min(baseDpr, dpr ?? (typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1));
+      
       renderer = new Renderer({
         dpr: computedDpr,
         alpha: true,
-        antialias: false
+        antialias: false,
+        powerPreference: 'high-performance'
       });
       rendererRef.current = renderer;
     } catch (e) {

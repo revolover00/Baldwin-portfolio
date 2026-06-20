@@ -64,25 +64,25 @@ export default function Work({ onNavigate }: WorkProps) {
   }
 
   return (
-    <div id="work" className="relative min-h-screen px-4 pt-24 md:pt-32 pb-24 md:px-8 max-w-7xl mx-auto z-10">
+    <div id="work" className="relative min-h-screen px-4 pt-16 sm:pt-24 md:pt-32 pb-16 sm:pb-24 md:px-8 max-w-7xl mx-auto z-10">
       {/* Page Title Header */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="flex items-center space-x-3 mb-10"
+        className="flex items-center space-x-3 mb-6 sm:mb-10"
       >
         <div 
-          className="p-2.5 rounded-lg"
+          className="p-1.5 sm:p-2.5 rounded-lg"
           style={{ backgroundColor: "rgba(204, 0, 255, 0.1)" }}
         >
-          <Briefcase size={28} style={{ color: "#CC00FF" }} />
+          <Briefcase size={20} className="sm:w-7 sm:h-7" style={{ color: "#CC00FF" }} />
         </div>
         <div>
-          <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight" style={{ color: "#E8D5F5" }}>
+          <h1 className="text-xl sm:text-3xl md:text-4xl font-extrabold tracking-tight" style={{ color: "#E8D5F5" }}>
             Selected Work
           </h1>
-          <p className="text-sm mt-1" style={{ color: "#A78BCA" }}>
+          <p className="text-[10px] sm:text-sm mt-0.5 sm:mt-1" style={{ color: "#A78BCA" }}>
             A curated showcase of high-performance digital creations and code craft
           </p>
         </div>
@@ -110,7 +110,7 @@ export default function Work({ onNavigate }: WorkProps) {
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-8"
         >
           {projects.map((project) => (
             <motion.div
@@ -139,14 +139,14 @@ export default function Work({ onNavigate }: WorkProps) {
                   />
                 ) : (
                   <div className="flex flex-col items-center justify-center">
-                    <Video size={40} className="text-[#6B4F8A]/30 transition-colors duration-300 group-hover/card:text-[#7B2FBE]/50" />
+                    <Video size={30} className="text-[#6B4F8A]/30 transition-colors duration-300 group-hover/card:text-[#7B2FBE]/50 sm:w-10 sm:h-10" />
                   </div>
                 )}
                 
                 {/* Visual Accent Banner */}
-                <div className="absolute top-3 left-3 flex space-x-2">
+                <div className="absolute top-2 left-2 sm:top-3 sm:left-3 flex space-x-2">
                   <span
-                    className="text-xs font-semibold px-2.5 py-1 rounded-full border backdrop-blur-md"
+                    className="text-[9px] sm:text-xs font-semibold px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full border backdrop-blur-md"
                     style={{
                       backgroundColor: "rgba(204, 0, 255, 0.15)",
                       borderColor: "rgba(204, 0, 255, 0.25)",
@@ -159,26 +159,26 @@ export default function Work({ onNavigate }: WorkProps) {
               </div>
 
               {/* Card Meta Content */}
-              <div className="p-6 flex flex-col flex-grow">
+              <div className="p-4 sm:p-6 flex flex-col flex-grow">
                 <h3 
-                  className="text-xl font-bold tracking-tight mb-2 group-hover:text-[#CC00FF] transition-colors duration-300"
+                  className="text-base sm:text-xl font-bold tracking-tight mb-1 sm:mb-2 group-hover:text-[#CC00FF] transition-colors duration-300"
                   style={{ color: "#E8D5F5" }}
                 >
                   {project.title}
                 </h3>
-                <p className="text-xs font-mono mb-4 text-[#6B4F8A]">
+                <p className="text-[9px] sm:text-xs font-mono mb-2 sm:mb-4 text-[#6B4F8A]">
                   {project.subtitle}
                 </p>
-                <p className="text-sm line-clamp-3 mb-6 flex-grow" style={{ color: "#A78BCA" }}>
+                <p className="text-[11px] sm:text-sm line-clamp-2 sm:line-clamp-3 mb-4 sm:mb-6 flex-grow" style={{ color: "#A78BCA" }}>
                   {project.description}
                 </p>
 
                 {/* Keyboard / Skills list tags */}
-                <div className="flex flex-wrap gap-1.5 mb-6">
+                <div className="flex flex-wrap gap-1 mb-4 sm:gap-1.5 sm:mb-6">
                   {project.skills.slice(0, 3).map((skill) => (
                     <span
                       key={skill}
-                      className="text-[10px] font-mono px-2 py-0.5 rounded border"
+                      className="text-[8px] sm:text-[10px] font-mono px-1.5 py-0.5 rounded border"
                       style={{
                         backgroundColor: "rgba(123, 47, 190, 0.05)",
                         borderColor: "rgba(123, 47, 190, 0.15)",
@@ -190,7 +190,7 @@ export default function Work({ onNavigate }: WorkProps) {
                   ))}
                   {project.skills.length > 3 && (
                     <span
-                      className="text-[10px] font-mono px-2 py-0.5 rounded"
+                      className="text-[8px] sm:text-[10px] font-mono px-1.5 py-0.5 rounded"
                       style={{
                         color: "#6B4F8A",
                       }}
@@ -201,9 +201,9 @@ export default function Work({ onNavigate }: WorkProps) {
                 </div>
 
                 {/* Footer interactive prompt */}
-                <div className="flex items-center text-xs font-bold uppercase tracking-wider group-hover/card:translate-x-1 transition-transform duration-300 mt-auto z-20" style={{ color: "#CC00FF" }}>
-                  <span className="mr-1.5">View Project Details</span>
-                  <ArrowRight size={14} />
+                <div className="flex items-center text-[10px] sm:text-xs font-bold uppercase tracking-wider group-hover/card:translate-x-1 transition-transform duration-300 mt-auto z-20" style={{ color: "#CC00FF" }}>
+                  <span className="mr-1.5 whitespace-nowrap">View Details</span>
+                  <ArrowRight size={12} className="sm:w-3.5 sm:h-3.5" />
                 </div>
               </div>
 

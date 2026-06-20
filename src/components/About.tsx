@@ -217,45 +217,45 @@ export default function About() {
   return (
     <div 
       id="about" 
-      className="relative min-h-screen px-4 pt-24 md:pt-32 pb-24 md:px-8 max-w-5xl mx-auto z-10 selection:bg-[#CC00FF]/20 selection:text-white"
+      className="relative min-h-screen px-4 pt-16 sm:pt-24 md:pt-32 pb-16 sm:pb-24 md:px-8 max-w-5xl mx-auto z-10 selection:bg-[#CC00FF]/20 selection:text-white"
     >
       {/* Decorative localized purple/violet blur orbs */}
-      <div className="absolute top-10 right-10 w-80 h-80 rounded-full bg-purple-500/10 blur-3xl pointer-events-none -z-10" />
-      <div className="absolute bottom-20 left-10 w-80 h-80 rounded-full bg-violet-500/10 blur-3xl pointer-events-none -z-10" />
+      <div className="absolute top-10 right-10 w-60 sm:w-80 h-60 sm:h-80 rounded-full bg-purple-500/10 blur-2xl sm:blur-3xl pointer-events-none -z-10" />
+      <div className="absolute bottom-20 left-10 w-60 sm:w-80 h-60 sm:h-80 rounded-full bg-violet-500/10 blur-2xl sm:blur-3xl pointer-events-none -z-10" />
 
-      <div className="space-y-16">
+      <div className="space-y-12 sm:space-y-16">
         
         {/* Section 1 — Identity */}
-        <section className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-center">
+        <section className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 md:gap-12 items-center">
           <motion.div 
             initial={{ opacity: 0, y: 25 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1.2, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-left md:col-span-7 space-y-6"
+            className="text-left md:col-span-7 space-y-4 sm:space-y-6"
           >
             {/* Title badge with pulsing magenta dot */}
             <div 
-              className="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full border text-xs font-mono tracking-wider uppercase mb-2"
+              className="inline-flex items-center space-x-2 px-2.5 py-1 rounded-full border text-[9px] sm:text-xs font-mono tracking-wider uppercase mb-1 sm:mb-2"
               style={{
                 backgroundColor: "rgba(123, 47, 190, 0.1)",
                 borderColor: "rgba(204, 0, 255, 0.2)",
                 color: "#E8D5F5"
               }}
             >
-              <span className="relative flex h-2 w-2">
+              <span className="relative flex h-1.5 w-1.5">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#CC00FF] opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#CC00FF]"></span>
+                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#CC00FF]"></span>
               </span>
-              <span>Vibe Coder</span>
+              <span>Architect</span>
             </div>
 
-            <h2 className="text-4xl md:text-5.5xl font-black tracking-tight select-none [text-shadow:0_0_30px_rgba(204,0,255,0.4)]" style={{ color: "#E8D5F5" }}>
+            <h2 className="text-2xl sm:text-4xl md:text-5.5xl font-black tracking-tight select-none [text-shadow:0_0_30px_rgba(204,0,255,0.4)]" style={{ color: "#E8D5F5" }}>
               Baldwin Portfolio
             </h2>
             
             <p 
-              className="text-base sm:text-lg leading-relaxed text-[#A78BCA]"
+              className="text-xs sm:text-base sm:text-lg leading-relaxed text-[#A78BCA]"
             >
               I build full-stack web experiences using the latest AI tools. From idea to deployment — fast, clean, and professional.
             </p>
@@ -275,15 +275,15 @@ export default function About() {
           className="space-y-6"
         >
           <div className="flex items-center space-x-3">
-            <div className="p-2.5 rounded-xl flex items-center justify-center animate-pulse" style={{ backgroundColor: "rgba(204, 0, 255, 0.1)" }}>
-              <Share2 size={20} style={{ color: "#CC00FF" }} />
+            <div className="p-1.5 sm:p-2.5 rounded-xl flex items-center justify-center animate-pulse" style={{ backgroundColor: "rgba(204, 0, 255, 0.1)" }}>
+              <Share2 size={16} className="sm:w-5 sm:h-5" style={{ color: "#CC00FF" }} />
             </div>
-            <h3 className="text-xl md:text-2xl font-bold tracking-tight" style={{ color: "#E8D5F5" }}>
+            <h3 className="text-lg md:text-2xl font-bold tracking-tight" style={{ color: "#E8D5F5" }}>
               Social Channels
             </h3>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             <motion.a 
               href="https://github.com/revolover00/"
               target="_blank"
@@ -294,19 +294,19 @@ export default function About() {
                 boxShadow: "0 22px 50px -10px rgba(204, 0, 255, 0.32), 0 0 20px 2px rgba(204, 0, 255, 0.15)"
               }}
               whileTap={{ scale: 0.98 }}
-              className="p-8 rounded-2xl border flex flex-col items-center justify-center text-center transition-all duration-500 ease-out group/card cursor-pointer relative overflow-hidden"
+              className="p-5 sm:p-8 rounded-xl sm:rounded-2xl border flex flex-col items-center justify-center text-center transition-all duration-500 ease-out group/card cursor-pointer relative overflow-hidden"
               style={{
                 backgroundColor: "rgba(10, 0, 16, 0.8)",
                 borderColor: "rgba(123, 47, 190, 0.2)"
               }}
             >
-              <div className="p-5 rounded-full mb-4 transition-all duration-500 group-hover/card:scale-105 z-20" style={{ backgroundColor: "rgba(255, 255, 255, 0.08)" }}>
-                <Github size={44} style={{ color: "#ffffff" }} />
+              <div className="p-3 sm:p-5 rounded-full mb-3 sm:mb-4 transition-all duration-500 group-hover/card:scale-105 z-20" style={{ backgroundColor: "rgba(255, 255, 255, 0.08)" }}>
+                <Github size={28} className="sm:w-11 sm:h-11" style={{ color: "#ffffff" }} />
               </div>
-              <h4 className="font-bold text-lg tracking-wide z-20 transition-colors duration-300 group-hover/card:text-white" style={{ color: "#E8D5F5" }}>
+              <h4 className="font-bold text-xs sm:text-lg tracking-wide z-20 transition-colors duration-300 group-hover/card:text-white" style={{ color: "#E8D5F5" }}>
                 GitHub
               </h4>
-              <p className="text-sm mt-1.5 z-20" style={{ color: "#A78BCA" }}>
+              <p className="text-[10px] sm:text-sm mt-1 z-20 hidden sm:block" style={{ color: "#A78BCA" }}>
                 Explore open source
               </p>
 
@@ -329,19 +329,19 @@ export default function About() {
                 boxShadow: "0 22px 50px -10px rgba(204, 0, 255, 0.32), 0 0 20px 2px rgba(204, 0, 255, 0.15)"
               }}
               whileTap={{ scale: 0.98 }}
-              className="p-8 rounded-2xl border flex flex-col items-center justify-center text-center transition-all duration-500 ease-out group/card cursor-pointer relative overflow-hidden"
+              className="p-5 sm:p-8 rounded-xl sm:rounded-2xl border flex flex-col items-center justify-center text-center transition-all duration-500 ease-out group/card cursor-pointer relative overflow-hidden"
               style={{
                 backgroundColor: "rgba(10, 0, 16, 0.8)",
                 borderColor: "rgba(123, 47, 190, 0.2)"
               }}
             >
-              <div className="p-5 rounded-full mb-4 transition-all duration-500 group-hover/card:scale-105 z-20" style={{ backgroundColor: "rgba(0, 119, 181, 0.1)" }}>
-                <Linkedin size={44} style={{ color: "#0077B5" }} />
+              <div className="p-3 sm:p-5 rounded-full mb-3 sm:mb-4 transition-all duration-500 group-hover/card:scale-105 z-20" style={{ backgroundColor: "rgba(0, 119, 181, 0.1)" }}>
+                <Linkedin size={28} className="sm:w-11 sm:h-11" style={{ color: "#0077B5" }} />
               </div>
-              <h4 className="font-bold text-lg tracking-wide z-20 transition-colors duration-300 group-hover/card:text-white" style={{ color: "#E8D5F5" }}>
+              <h4 className="font-bold text-xs sm:text-lg tracking-wide z-20 transition-colors duration-300 group-hover/card:text-white" style={{ color: "#E8D5F5" }}>
                 LinkedIn
               </h4>
-              <p className="text-sm mt-1.5 z-20" style={{ color: "#A78BCA" }}>
+              <p className="text-[10px] sm:text-sm mt-1 z-20 hidden sm:block" style={{ color: "#A78BCA" }}>
                 Connect professionally
               </p>
 
@@ -364,20 +364,20 @@ export default function About() {
                 boxShadow: "0 22px 50px -10px rgba(204, 0, 255, 0.32), 0 0 20px 2px rgba(204, 0, 255, 0.15)"
               }}
               whileTap={{ scale: 0.98 }}
-              className="p-8 rounded-2xl border flex flex-col items-center justify-center text-center transition-all duration-500 ease-out group/card cursor-pointer relative overflow-hidden"
+              className="p-5 sm:p-8 rounded-xl sm:rounded-2xl border flex flex-col items-center justify-center text-center transition-all duration-500 ease-out group/card cursor-pointer relative overflow-hidden"
               style={{
                 backgroundColor: "rgba(10, 0, 16, 0.8)",
                 borderColor: "rgba(123, 47, 190, 0.2)"
               }}
             >
-              <div className="p-5 rounded-full mb-4 transition-all duration-500 group-hover/card:scale-105 z-20" style={{ backgroundColor: "rgba(255, 0, 0, 0.1)" }}>
-                <Youtube size={44} style={{ color: "#FF0000" }} />
+              <div className="p-3 sm:p-5 rounded-full mb-3 sm:mb-4 transition-all duration-500 group-hover/card:scale-105 z-20" style={{ backgroundColor: "rgba(255, 0, 0, 0.1)" }}>
+                <Youtube size={28} className="sm:w-11 sm:h-11" style={{ color: "#FF0000" }} />
               </div>
-              <h4 className="font-bold text-lg tracking-wide z-20 transition-colors duration-300 group-hover/card:text-white" style={{ color: "#E8D5F5" }}>
+              <h4 className="font-bold text-xs sm:text-lg tracking-wide z-20 transition-colors duration-300 group-hover/card:text-white" style={{ color: "#E8D5F5" }}>
                 YouTube
               </h4>
-              <p className="text-sm mt-1.5 z-20" style={{ color: "#A78BCA" }}>
-                Subscribe to our channel
+              <p className="text-[10px] sm:text-sm mt-1 z-20 hidden sm:block" style={{ color: "#A78BCA" }}>
+                Subscribe now
               </p>
 
               {/* Radiant inner floating neon glow effect that activates smoothly on hover */}
@@ -399,20 +399,20 @@ export default function About() {
                 boxShadow: "0 22px 50px -10px rgba(204, 0, 255, 0.32), 0 0 20px 2px rgba(204, 0, 255, 0.15)"
               }}
               whileTap={{ scale: 0.98 }}
-              className="p-8 rounded-2xl border flex flex-col items-center justify-center text-center transition-all duration-500 ease-out group/card cursor-pointer relative overflow-hidden"
+              className="p-5 sm:p-8 rounded-xl sm:rounded-2xl border flex flex-col items-center justify-center text-center transition-all duration-500 ease-out group/card cursor-pointer relative overflow-hidden"
               style={{
                 backgroundColor: "rgba(10, 0, 16, 0.8)",
                 borderColor: "rgba(123, 47, 190, 0.2)"
               }}
             >
-              <div className="p-5 rounded-full mb-4 transition-all duration-500 group-hover/card:scale-105 z-20" style={{ backgroundColor: "rgba(255, 255, 255, 0.05)" }}>
-                <Twitter size={44} style={{ color: "#E8D5F5" }} />
+              <div className="p-3 sm:p-5 rounded-full mb-3 sm:mb-4 transition-all duration-500 group-hover/card:scale-105 z-20" style={{ backgroundColor: "rgba(255, 255, 255, 0.05)" }}>
+                <Twitter size={28} className="sm:w-11 sm:h-11" style={{ color: "#E8D5F5" }} />
               </div>
-              <h4 className="font-bold text-lg tracking-wide z-20 transition-colors duration-300 group-hover/card:text-white" style={{ color: "#E8D5F5" }}>
+              <h4 className="font-bold text-xs sm:text-lg tracking-wide z-20 transition-colors duration-300 group-hover/card:text-white" style={{ color: "#E8D5F5" }}>
                 X / Twitter
               </h4>
-              <p className="text-sm mt-1.5 z-20" style={{ color: "#A78BCA" }}>
-                Follow for updates
+              <p className="text-[10px] sm:text-sm mt-1 z-20 hidden sm:block" style={{ color: "#A78BCA" }}>
+                Follow me
               </p>
 
               {/* Radiant inner floating neon glow effect that activates smoothly on hover */}
@@ -435,15 +435,15 @@ export default function About() {
           className="space-y-6"
         >
           <div className="flex items-center space-x-3">
-            <div className="p-2.5 rounded-xl flex items-center justify-center animate-pulse" style={{ backgroundColor: "rgba(204, 0, 255, 0.1)" }}>
-              <Cpu size={20} style={{ color: "#CC00FF" }} />
+            <div className="p-1.5 sm:p-2.5 rounded-xl flex items-center justify-center animate-pulse" style={{ backgroundColor: "rgba(204, 0, 255, 0.1)" }}>
+              <Cpu size={16} className="sm:w-5 sm:h-5" style={{ color: "#CC00FF" }} />
             </div>
-            <h3 className="text-xl md:text-2xl font-bold tracking-tight" style={{ color: "#E8D5F5" }}>
+            <h3 className="text-lg md:text-2xl font-bold tracking-tight" style={{ color: "#E8D5F5" }}>
               Core Technical Skills
             </h3>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
             {skillCategories.map((category, idx) => (
               <motion.div 
                 key={idx}
@@ -468,19 +468,19 @@ export default function About() {
                   boxShadow: "0 22px 50px -10px rgba(204, 0, 255, 0.3), 0 0 20px 2px rgba(204, 0, 255, 0.15)"
                 }}
                 whileTap={{ scale: 0.98 }}
-                className="p-6 rounded-2xl border cursor-pointer select-none group/card relative overflow-hidden transition-all duration-500 ease-out"
+                className="p-4 sm:p-6 rounded-xl sm:rounded-2xl border cursor-pointer select-none group/card relative overflow-hidden transition-all duration-500 ease-out"
                 style={{
                   backgroundColor: "rgba(10, 0, 16, 0.8)",
                   borderColor: "rgba(123, 47, 190, 0.2)"
                 }}
               >
-                <div className="flex items-center space-x-2.5 mb-4 z-20 relative">
-                  {category.icon}
-                  <h4 className="font-bold text-sm tracking-wide uppercase" style={{ color: "#E8D5F5" }}>
+                <div className="flex items-center space-x-2.5 mb-3 sm:mb-4 z-20 relative">
+                  {React.cloneElement(category.icon as React.ReactElement, { size: 14, className: "sm:w-4.5 sm:h-4.5" })}
+                  <h4 className="font-bold text-[10px] sm:text-sm tracking-wide uppercase" style={{ color: "#E8D5F5" }}>
                     {category.title}
                   </h4>
                 </div>
-                <div className="flex flex-wrap gap-2.5 z-20 relative">
+                <div className="flex flex-wrap gap-1.5 sm:gap-2.5 z-20 relative">
                   {category.skills.map((skill, sIdx) => (
                     <motion.span 
                       key={sIdx}
@@ -497,7 +497,7 @@ export default function About() {
                           } 
                         }
                       }}
-                      className="px-3.5 py-1.5 rounded-full text-xs font-medium border inline-flex items-center space-x-2 bg-white/[0.02] hover:bg-white/[0.06] hover:border-[#CC00FF]/40 transition-colors duration-200 cursor-pointer"
+                      className="px-2 py-0.5 sm:px-3.5 sm:py-1.5 rounded-full text-[9px] sm:text-xs font-medium border inline-flex items-center space-x-1.5 sm:space-x-2 bg-white/[0.02] hover:bg-white/[0.06] hover:border-[#CC00FF]/40 transition-colors duration-200 cursor-pointer"
                       style={{
                         borderColor: "rgba(192, 132, 252, 0.15)",
                         color: "#E8D5F5"

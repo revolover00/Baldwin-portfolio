@@ -1,16 +1,24 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, lazy, Suspense } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import Header from "./components/Header";
 import Home from "./components/Home";
-import Work from "./components/Work";
-import About from "./components/About";
-import Contact from "./components/Contact";
 import ProjectDetail from "./components/ProjectDetail";
 import Splash from "./components/Splash";
 import Ferrofluid from "./components/Ferrofluid";
 import { Twitter, Linkedin, Youtube, Github } from "lucide-react";
 import { Store } from "./store";
 import Lenis from "lenis";
+
+// Dynamic imports for heavy sections
+const Work = lazy(() => import("./components/Work"));
+const About = lazy(() => import("./components/About"));
+const Contact = lazy(() => import("./components/Contact"));
+
+const SectionLoader = () => (
+  <div className="w-full h-40 flex items-center justify-center">
+    <div className="w-6 h-6 border-2 border-purple-500/20 border-t-purple-500 rounded-full animate-spin" />
+  </div>
+);
 
 export default function App() {
   const [showSplash, setShowSplash] = useState(true);
@@ -88,14 +96,15 @@ export default function App() {
 
   useEffect(() => {
     // Instantiate Lenis for liquid-smooth momentum navigation physics
+    const isMobile = window.innerWidth < 768;
     const lenis = new Lenis({
-      duration: 1.3, // Weighted luxury deceleration
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Exponential deceleration ease
+      duration: isMobile ? 1.0 : 1.3, // Faster on mobile
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
       orientation: "vertical",
       gestureOrientation: "vertical",
       smoothWheel: true,
-      wheelMultiplier: 1.0,
-      touchMultiplier: 1.5,
+      wheelMultiplier: isMobile ? 0.8 : 1.0, // Subtler on touch
+      touchMultiplier: isMobile ? 1.4 : 1.5,
       infinite: false,
     });
 
@@ -278,21 +287,27 @@ export default function App() {
                         <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-purple-500/10 to-transparent" />
                       </div>
 
-                      <Work onNavigate={navigateToRoute} />
+                      <Suspense fallback={<SectionLoader />}>
+                        <Work onNavigate={navigateToRoute} />
+                      </Suspense>
 
                       {/* Premium separator line */}
                       <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pointer-events-none">
                         <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-purple-500/10 to-transparent" />
                       </div>
 
-                      <About />
+                      <Suspense fallback={<SectionLoader />}>
+                        <About />
+                      </Suspense>
 
                       {/* Premium separator line */}
                       <div className="w-full max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pointer-events-none">
                         <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-purple-500/10 to-transparent" />
                       </div>
 
-                      <Contact />
+                      <Suspense fallback={<SectionLoader />}>
+                        <Contact />
+                      </Suspense>
                     </div>
                   ) : (
                     <ProjectDetail projectId={route.projectId} onNavigate={navigateToRoute} />

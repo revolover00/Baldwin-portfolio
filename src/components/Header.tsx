@@ -32,17 +32,17 @@ export default function Header({ currentTab, onNavigate, showSplash }: HeaderPro
         boxShadow: "0 4px 30px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.05)"
       }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 sm:h-20 flex items-center justify-between relative">
         {/* Left Side: Logo (src="/logo.webp") */}
         <div 
           onClick={() => handleNavClick("#home")}
-          className="flex items-center cursor-pointer z-10 group min-w-[140px] h-12 sm:h-14 relative"
+          className="flex items-center cursor-pointer z-10 group min-w-[100px] sm:min-w-[140px] h-9 sm:h-14 relative"
         >
           {!logoFailed ? (
             !showSplash && (
               <motion.div 
                 layoutId="header-logo"
-                className="h-12 sm:h-14 flex items-center justify-center"
+                className="h-9 sm:h-14 flex items-center justify-center"
                 transition={{
                   duration: 1.2,
                   ease: [0.16, 1, 0.3, 1]
@@ -51,7 +51,7 @@ export default function Header({ currentTab, onNavigate, showSplash }: HeaderPro
                 <img 
                   src="/logo.webp" 
                   alt="Baldwin Portfolio" 
-                  className="h-12 sm:h-14 w-auto object-contain transition-all duration-300 group-hover:scale-[1.04]"
+                  className="h-9 sm:h-14 w-auto object-contain transition-all duration-300 group-hover:scale-[1.04]"
                   onError={() => setLogoFailed(true)}
                 />
               </motion.div>
@@ -59,10 +59,10 @@ export default function Header({ currentTab, onNavigate, showSplash }: HeaderPro
           ) : (
             /* Premium Fallback Design */
             <div className="flex items-center space-x-2 sm:space-x-3">
-              <span className="text-3xl sm:text-4xl font-black font-display uppercase tracking-wider text-[#CC00FF] [text-shadow:0_0_20px_rgba(204,0,255,0.6)]">
+              <span className="text-2xl sm:text-4xl font-black font-display uppercase tracking-wider text-[#CC00FF] [text-shadow:0_0_20px_rgba(204,0,255,0.6)]">
                 B
               </span>
-              <span className="text-sm sm:text-base font-bold font-display tracking-widest text-[#E8D5F5] uppercase hidden sm:inline">
+              <span className="text-[10px] sm:text-base font-bold font-display tracking-widest text-[#E8D5F5] uppercase hidden sm:inline">
                 BALDWIN
               </span>
             </div>
@@ -70,14 +70,14 @@ export default function Header({ currentTab, onNavigate, showSplash }: HeaderPro
         </div>
 
         {/* Absolute Centered Navigation Links (Visible on both Mobile & Desktop) */}
-        <div className="absolute left-1/2 -translate-x-1/2 flex items-center space-x-4 sm:space-x-6 md:space-x-8 z-10">
+        <div className="absolute left-1/2 -translate-x-1/2 flex items-center space-x-3 sm:space-x-6 md:space-x-8 z-10">
           {navItems.map((item) => {
             const isActive = currentTab === item.id || (item.id === "work" && currentTab === "project");
             return (
               <button
                 key={item.id}
                 onClick={() => handleNavClick(item.route)}
-                className="text-[11px] sm:text-[13px] font-bold sm:font-semibold uppercase tracking-widest transition-colors duration-300 hover:text-[#E8D5F5] relative py-1 cursor-pointer whitespace-nowrap"
+                className="text-[9px] sm:text-[13px] font-extrabold sm:font-semibold uppercase tracking-widest transition-colors duration-300 hover:text-[#E8D5F5] relative py-1 cursor-pointer whitespace-nowrap"
                 style={{
                   color: isActive ? "#E8D5F5" : "#A78BCA",
                   textShadow: "0 1.5px 6px rgba(0, 0, 0, 0.95)"
@@ -87,12 +87,12 @@ export default function Header({ currentTab, onNavigate, showSplash }: HeaderPro
                 {isActive && (
                   <motion.div
                     layoutId="activeTabSword"
-                    className="absolute bottom-[-14px] left-1/2 -translate-x-1/2 pointer-events-none flex items-center justify-center h-4 w-10 sm:w-12"
+                    className="absolute bottom-[-10px] sm:bottom-[-14px] left-1/2 -translate-x-1/2 pointer-events-none flex items-center justify-center h-4 w-8 sm:w-12"
                     transition={{ type: "spring", stiffness: 380, damping: 28 }}
                   >
                     <svg 
                       width="100%" 
-                      height="12" 
+                      height="8" 
                       viewBox="0 0 48 12" 
                       fill="none" 
                       className="drop-shadow-[0_0_6px_rgba(204,0,255,0.9)]"

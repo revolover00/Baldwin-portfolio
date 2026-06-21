@@ -116,7 +116,7 @@ const getSkillIcon = (name: string) => {
 function CountUp({ value }: { value: string }) {
   const [count, setCount] = useState(0);
   const elementRef = useRef<HTMLSpanElement | null>(null);
-  const isInView = useInView(elementRef, { once: true, margin: "-10px" });
+  const isInView = useInView(elementRef, { once: true, margin: "200px" });
   const parsed = value.match(/^([^\d]*)(\d+)([^\d]*)$/);
 
   useEffect(() => {
@@ -230,8 +230,8 @@ export default function About() {
           <motion.div 
             initial={{ opacity: 0, y: 25 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.2, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            viewport={{ once: true, margin: "200px" }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
             className="text-left md:col-span-7 space-y-4 sm:space-y-6"
           >
             {/* Title badge with pulsing magenta dot */}
@@ -270,8 +270,8 @@ export default function About() {
         <motion.section 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
+          viewport={{ once: true, margin: "200px" }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
           className="space-y-6"
         >
           <div className="flex items-center space-x-3">
@@ -430,8 +430,8 @@ export default function About() {
         <motion.section 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
+          viewport={{ once: true, margin: "200px" }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
           className="space-y-6"
         >
           <div className="flex items-center space-x-3">
@@ -449,16 +449,16 @@ export default function About() {
                 key={idx}
                 initial="hidden"
                 whileInView="visible"
-                viewport={{ once: true, margin: "-40px" }}
+                viewport={{ once: true, margin: "200px" }}
                 variants={{
                   hidden: { opacity: 0, y: 25 },
                   visible: {
                     opacity: 1,
                     y: 0,
                     transition: {
-                      duration: 0.6,
-                      staggerChildren: 0.15,
-                      delayChildren: 0.4
+                      duration: 0.4,
+                      staggerChildren: 0.1,
+                      delayChildren: 0.1
                     }
                   }
                 }}
@@ -525,7 +525,7 @@ export default function About() {
         <motion.section 
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-50px" }}
+          viewport={{ once: true, margin: "200px" }}
           variants={{
             hidden: { opacity: 0 },
             visible: {
@@ -644,8 +644,8 @@ export default function About() {
         <motion.section 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
+          viewport={{ once: true, margin: "200px" }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
           className="relative rounded-2xl overflow-hidden p-[1.5px] select-none"
           style={{
             boxShadow: "0 10px 30px rgba(0,0,0,0.5)"

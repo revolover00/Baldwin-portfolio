@@ -1,24 +1,16 @@
-import { useEffect, useState, useRef, lazy, Suspense } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import Header from "./components/Header";
 import Home from "./components/Home";
+import Work from "./components/Work";
+import About from "./components/About";
+import Contact from "./components/Contact";
 import ProjectDetail from "./components/ProjectDetail";
 import Splash from "./components/Splash";
 import Ferrofluid from "./components/Ferrofluid";
 import { Twitter, Linkedin, Youtube, Github } from "lucide-react";
 import { Store } from "./store";
 import Lenis from "lenis";
-
-// Dynamic imports for heavy sections
-const Work = lazy(() => import("./components/Work"));
-const About = lazy(() => import("./components/About"));
-const Contact = lazy(() => import("./components/Contact"));
-
-const SectionLoader = () => (
-  <div className="w-full h-40 flex items-center justify-center">
-    <div className="w-6 h-6 border-2 border-purple-500/20 border-t-purple-500 rounded-full animate-spin" />
-  </div>
-);
 
 export default function App() {
   const [showSplash, setShowSplash] = useState(true);
@@ -287,27 +279,21 @@ export default function App() {
                         <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-purple-500/10 to-transparent" />
                       </div>
 
-                      <Suspense fallback={<SectionLoader />}>
-                        <Work onNavigate={navigateToRoute} />
-                      </Suspense>
+                      <Work onNavigate={navigateToRoute} />
 
                       {/* Premium separator line */}
                       <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pointer-events-none">
                         <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-purple-500/10 to-transparent" />
                       </div>
 
-                      <Suspense fallback={<SectionLoader />}>
-                        <About />
-                      </Suspense>
+                      <About />
 
                       {/* Premium separator line */}
                       <div className="w-full max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pointer-events-none">
                         <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-purple-500/10 to-transparent" />
                       </div>
 
-                      <Suspense fallback={<SectionLoader />}>
-                        <Contact />
-                      </Suspense>
+                      <Contact />
                     </div>
                   ) : (
                     <ProjectDetail projectId={route.projectId} onNavigate={navigateToRoute} />

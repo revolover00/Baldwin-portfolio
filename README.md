@@ -1,125 +1,158 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=7B2FBE&height=200&section=header&text=Baldwin%20Portfolio&fontSize=50&fontColor=ECE6F4&animation=fadeIn&fontAlignY=35&desc=Dark%20Fantasy%20Developer%20Portfolio&descAlignY=55&descSize=18" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=7B2FBE&height=220&section=header&text=Baldwin&fontSize=70&fontColor=ECE6F4&animation=fadeIn&fontAlignY=38&desc=A%20Dark%20Fantasy%20Developer%20Portfolio&descAlignY=58&descSize=18" width="100%"/>
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20Site-CC00FF?style=for-the-badge&logo=vercel&logoColor=white)](https://ais-pre-43hb4ladgt273fbgc6ur3e-105766517539.europe-west3.run.app)
-[![GitHub](https://img.shields.io/badge/GitHub-revolover00-7B2FBE?style=for-the-badge&logo=github&logoColor=white)](https://github.com/revolover00/Baldwin-portfolio-)
-[![License](https://img.shields.io/badge/License-MIT-CC00FF?style=for-the-badge)](LICENSE)
+<p>
+  <em>Gothic-themed, full-stack developer portfolio — built with React, WebGL, and Supabase.</em>
+</p>
 
-</div>
+<p>
+  <a href="https://ais-pre-43hb4ladgt273fbgc6ur3e-105766517539.europe-west3.run.app"><img src="https://img.shields.io/badge/Live%20Demo-Visit%20Site-CC00FF?style=for-the-badge&logo=vercel&logoColor=white" alt="Live Demo"/></a>
+  <a href="https://github.com/revolover00/Baldwin-portfolio-"><img src="https://img.shields.io/badge/GitHub-revolover00-7B2FBE?style=for-the-badge&logo=github&logoColor=white" alt="GitHub"/></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-CC00FF?style=for-the-badge" alt="License"/></a>
+</p>
 
----
-
-## 👤 About &nbsp; ![About](https://img.shields.io/badge/About-Portfolio-CC00FF?style=for-the-badge)
-
-A dark fantasy developer portfolio built with React + TypeScript. Featuring WebGL shaders, particle systems, 3D page transitions, and Supabase backend.
-
----
-
-## 🛠️ Tech Stack &nbsp; ![Tech Stack](https://img.shields.io/badge/Stack-Modern-7B2FBE?style=for-the-badge)
-
-<div align="center">
-
-![React](https://img.shields.io/badge/React-19-CC00FF?style=for-the-badge&logo=react&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.8-7B2FBE?style=for-the-badge&logo=typescript&logoColor=white)
-![Vite](https://img.shields.io/badge/Vite-6-CC00FF?style=for-the-badge&logo=vite&logoColor=white)
-![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4-7B2FBE?style=for-the-badge&logo=tailwindcss&logoColor=white)
-![Framer Motion](https://img.shields.io/badge/Framer%20Motion-12-CC00FF?style=for-the-badge&logo=framer&logoColor=white)
-![Supabase](https://img.shields.io/badge/Supabase-2-7B2FBE?style=for-the-badge&logo=supabase&logoColor=white)
-![Vercel](https://img.shields.io/badge/Deployed-Vercel-CC00FF?style=for-the-badge&logo=vercel&logoColor=white)
+<p>
+  <img src="https://img.shields.io/badge/React-19-CC00FF?style=flat-square&logo=react&logoColor=white" alt="React"/>
+  <img src="https://img.shields.io/badge/TypeScript-5.8-7B2FBE?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript"/>
+  <img src="https://img.shields.io/badge/Vite-6-CC00FF?style=flat-square&logo=vite&logoColor=white" alt="Vite"/>
+  <img src="https://img.shields.io/badge/TailwindCSS-4-7B2FBE?style=flat-square&logo=tailwindcss&logoColor=white" alt="TailwindCSS"/>
+  <img src="https://img.shields.io/badge/Framer%20Motion-12-CC00FF?style=flat-square&logo=framer&logoColor=white" alt="Framer Motion"/>
+  <img src="https://img.shields.io/badge/Supabase-2-7B2FBE?style=flat-square&logo=supabase&logoColor=white" alt="Supabase"/>
+  <img src="https://img.shields.io/badge/WebGL-OGL-CC00FF?style=flat-square" alt="WebGL"/>
+</p>
 
 </div>
 
----
+<br/>
 
-## ✨ Features &nbsp; ![Features](https://img.shields.io/badge/Features-Rich-CC00FF?style=for-the-badge)
+## ✦ Overview
 
-- **Hash-based SPA routing** (no React Router) — `#home`, `#work`, `#about`, `#contact`, `#project/:id`
-- **HTML5 Canvas ember particle system** (purple/magenta floating particles)
-- **Floating monospace code snippets** drifting upward with Framer Motion
-- **Ferrofluid WebGL interactive background shader** on subpages (using `ogl` library)
-- **3D page transitions** using `rotateY` spring animation with `AnimatePresence`
-- **Cinematic zoom transition** for project detail pages
-- **Supabase integration** — projects (public SELECT) and messages (public INSERT)
-- **Contact form** with 60-second localStorage rate limiting
-- **2.8-second animated Splash screen** before app renders
-- **Responsive design** — mobile + desktop
+**Baldwin** is a personal developer portfolio built around a *Baldwin IV / plague-doctor* gothic aesthetic — deep purples, magenta glow, and atmospheric motion. It's a single-page React application with hash-based routing, a custom WebGL "ferrofluid" shader background, scroll-driven Framer Motion animation, and a Supabase backend that powers a live project showcase and a rate-limited contact form.
 
----
+Every interaction — page transitions, hover states, the splash sequence, the project-detail zoom — is tuned to feel like one continuous, deliberate piece of motion design rather than a stitched-together template.
 
-## 📁 Project Structure &nbsp; ![Structure](https://img.shields.io/badge/Structure-Clean-7B2FBE?style=for-the-badge)
+<br/>
+
+## ✦ Table of Contents
+
+- [Highlights](#-highlights)
+- [Tech Stack](#-tech-stack)
+- [Project Structure](#-project-structure)
+- [Getting Started](#-getting-started)
+- [Environment Variables](#-environment-variables)
+- [Supabase Setup](#-supabase-setup)
+- [Performance Notes](#-performance-notes)
+- [Limitations](#-limitations)
+- [Connect](#-connect)
+- [License](#-license)
+
+<br/>
+
+## ✦ Highlights
+
+| | |
+|---|---|
+| 🧭 **Hash-based SPA routing** | No React Router — `#home`, `#work`, `#about`, `#contact`, `#project/:id`, with scroll-sync via `IntersectionObserver` |
+| 🌌 **Interactive WebGL background** | Custom GLSL "ferrofluid" shader (`ogl`) with mouse-reactive glow, fully disabled on mobile in favor of a lightweight gradient fallback |
+| ✨ **Canvas ember particle system** | Hand-rolled `<canvas>` particle field, frame-rate-aware on mobile |
+| 🎬 **Cinematic transitions** | 3D `rotateY` route transitions, a shared-layout splash → header logo animation, and a dedicated zoom transition into project detail pages |
+| 🪶 **Lenis smooth scroll** | Buttery momentum scrolling with reduced intensity tuning on touch devices |
+| 🗄️ **Supabase-backed content** | Projects are fetched live (public `SELECT`); falls back to a built-in demo project set if Supabase isn't configured |
+| ✉️ **Rate-limited contact form** | Public `INSERT` into Supabase with a client-side cooldown to prevent spam |
+| 📱 **Responsive, performance-aware** | Mobile gets reduced shader complexity, fewer particles, and tuned scroll physics — not just a smaller layout |
+
+<br/>
+
+## ✦ Tech Stack
+
+- **Framework:** React 19 + TypeScript
+- **Build tool:** Vite 6
+- **Styling:** TailwindCSS 4 (`@tailwindcss/vite`)
+- **Animation:** Framer Motion (`motion`) + Lenis
+- **3D / Shaders:** `ogl` (lightweight WebGL)
+- **Backend:** Supabase (Postgres + Row Level Security)
+- **Icons:** Lucide React
+- **Deployment:** Vercel (static SPA) — see [`vercel.json`](vercel.json)
+
+<br/>
+
+## ✦ Project Structure
 
 ```text
 src/
 ├── components/
-│   ├── App.tsx           — Root component, routing, layout
-│   ├── Home.tsx          — Hero, video, particles, sword SVG
-│   ├── Work.tsx          — Projects grid from Supabase
-│   ├── About.tsx         — Skills, stats, social links, mission
-│   ├── Contact.tsx       — Contact form with rate limiting
-│   ├── ProjectDetail.tsx — Individual project page
-│   ├── Header.tsx        — Fixed nav header
-│   ├── Splash.tsx        — Loading screen
-│   └── Ferrofluid.tsx    — WebGL shader background
-├── store.ts              — Supabase data layer + cache
-├── types.ts              — TypeScript interfaces
-└── integrations/
-    └── supabase/
-        ├── client.ts     — Supabase client init
-        └── types.ts      — DB types
+│   ├── App.tsx           — Root component, routing, scroll orchestration, footer
+│   ├── Home.tsx           — Hero section, typewriter effect, ember particles
+│   ├── Work.tsx            — Projects grid, sourced from Supabase
+│   ├── About.tsx           — Skills, social channels, live stats
+│   ├── Contact.tsx        — Contact form with cooldown-based rate limiting
+│   ├── ProjectDetail.tsx  — Individual project case-study page
+│   ├── Header.tsx          — Fixed nav with active-route indicator
+│   ├── Splash.tsx          — Animated intro screen (shared-layout transition into Header)
+│   ├── ProfileCard.tsx    — Portrait card used in the About section
+│   └── Ferrofluid.tsx      — WebGL shader background + mobile fallback
+├── integrations/supabase/
+│   ├── client.ts            — Supabase client + config validation
+│   └── types.ts             — Database row types
+├── store.ts                  — Data layer: project fetching/caching, message submission
+└── types.ts                  — Shared UI-facing TypeScript types
+
 public/
-├── logo.webp             — Logo (add manually)
-└── bg-video.mp4          — Background video (add manually)
+├── logo.webp     — Brand mark (add manually, see Limitations)
+└── bg-video.mp4  — Reserved asset path (add manually, see Limitations)
 ```
 
----
+<br/>
 
-## 🚀 Getting Started &nbsp; ![Setup](https://img.shields.io/badge/Getting_Started-Run-CC00FF?style=for-the-badge)
+## ✦ Getting Started
 
-To deploy or develop locally:
+```bash
+# 1. Clone the repository
+git clone https://github.com/revolover00/Baldwin-portfolio-.git
+cd Baldwin-portfolio-
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/revolover00/Baldwin-portfolio-.git
-   cd Baldwin-portfolio-
-   ```
+# 2. Install dependencies
+npm install
 
-2. **Install all workspace dependencies:**
-   ```bash
-   npm install
-   ```
+# 3. Configure environment variables
+cp .env.example .env
+# then fill in your Supabase credentials (see below)
 
-3. **Configure your environment keys:**
-   Copy the `.env.example` file to `.env` and fill in your Supabase connection strings:
-   ```bash
-   cp .env.example .env
-   ```
+# 4. Run the dev server
+npm run dev
+```
 
-4. **Boot the Vite dev server:**
-   ```bash
-   npm run dev
-   ```
+Other useful scripts:
 
----
+```bash
+npm run build     # production build
+npm run preview   # preview the production build locally
+npm run lint       # type-check with tsc --noEmit
+```
 
-## 🔐 Environment Variables &nbsp; ![Variables](https://img.shields.io/badge/Environment-Keys-7B2FBE?style=for-the-badge)
+<br/>
+
+## ✦ Environment Variables
 
 | Variable | Description | Example |
 | :--- | :--- | :--- |
-| `VITE_SUPABASE_URL` | Your Supabase project URL API gateway address | `https://xxxx.supabase.co` |
-| `VITE_SUPABASE_ANON_KEY` | Your Supabase anon/public role credentials token | `eyJ...` |
+| `VITE_SUPABASE_URL` | Your Supabase project's API gateway URL | `https://xxxx.supabase.co` |
+| `VITE_SUPABASE_ANON_KEY` | Your Supabase anon/public API key | `eyJ...` |
 
----
+> Without these set, the app still runs fully — `Work.tsx` automatically falls back to a built-in set of demo projects, and the contact form will surface a clear configuration error instead of failing silently.
 
-## 🗄️ Supabase Setup &nbsp; ![Database](https://img.shields.io/badge/Supabase-Backend-CC00FF?style=for-the-badge)
+<br/>
+
+## ✦ Supabase Setup
 
 <details>
-<summary>🔑 Click to expand Database Schemas & Row Level Security SQL</summary>
+<summary><strong>Click to expand — table schema & Row Level Security policies</strong></summary>
 
-### 1. Table Creation DDL
+**1. Table creation**
 
 ```sql
--- Create projects table
+-- Projects shown in the Work section
 CREATE TABLE projects (
   id TEXT PRIMARY KEY,
   title TEXT NOT NULL,
@@ -133,7 +166,7 @@ CREATE TABLE projects (
   createdAt BIGINT
 );
 
--- Create contact messages table
+-- Messages submitted via the Contact form
 CREATE TABLE messages (
   id TEXT PRIMARY KEY,
   senderEmail TEXT NOT NULL,
@@ -144,61 +177,65 @@ CREATE TABLE messages (
 );
 ```
 
-### 2. Row Level Security (RLS) Configuration
-
-Configure row access rules to let public visitors select projects and insert messages:
+**2. Row Level Security**
 
 ```sql
--- Enable RLS on both tables
 ALTER TABLE projects ENABLE ROW LEVEL SECURITY;
 ALTER TABLE messages ENABLE ROW LEVEL SECURITY;
 
--- Allow anonymous select on projects
-CREATE POLICY "Allow public select" 
-ON projects FOR SELECT 
-TO anon 
+CREATE POLICY "Allow public select"
+ON projects FOR SELECT
+TO anon
 USING (true);
 
--- Allow anonymous insert on messages
-CREATE POLICY "Allow anonymous insert" 
-ON messages FOR INSERT 
-TO anon 
+CREATE POLICY "Allow anonymous insert"
+ON messages FOR INSERT
+TO anon
 WITH CHECK (true);
 ```
 
 </details>
 
----
+<br/>
 
-## ⚠️ Known Issues &nbsp; ![Issues](https://img.shields.io/badge/Known_Issues-Review-7B2FBE?style=for-the-badge)
+## ✦ Performance Notes
 
-> ⚠️ **IMPORTANT DEVELOPMENT ACCENTS**
-> - **Asset Requirements:** `logo.webp` contains tailored branding and needs to be placed manually inside the `/public/` assets directory before compiling as it is git-ignored. (A text fallback will render gracefully if absent).
+The app actively degrades animation complexity on smaller/lower-power devices rather than just hiding elements:
 
-### ✅ Recently Resolved
-- **Contact Rate Limiting:** Cooldown is correctly set to a production-safe 5 hours to prevent spam.
-- **Shader Mobile Fallback:** The WebGL Ferrofluid shader now correctly disables itself and falls back to performing gradient blobs on viewports under `1024px` to preserve mobile performance.
-- **AI-Studio Template Artifacts:** Leftover Gemini capabilities and env blanks have been removed to keep dependencies lean.
+- The Ferrofluid WebGL shader is **fully disabled below 1024px** and replaced with a static blurred-gradient fallback.
+- The ember particle canvas halves its frame rate and particle ceiling on mobile.
+- Lenis smooth-scroll duration and wheel/touch multipliers are tuned down for touch devices.
 
----
+<br/>
 
-## 🔗 Social Links &nbsp; ![Socials](https://img.shields.io/badge/Socials-Connect-CC00FF?style=for-the-badge)
+## ✦ Limitations
+
+- **Brand assets are not committed.** `logo.webp` and `bg-video.mp4` are git-ignored and must be added manually to `/public` before building — both have graceful fallbacks (the header/footer render a stylized text wordmark if `logo.webp` is missing).
+- `bg-video.mp4` is currently a **reserved asset path** (cache headers are pre-configured in `vercel.json`) — the hero section does not yet render a video background by default.
+- The contact form's rate limiting is enforced client-side via `localStorage`; it deters casual spam but is not a substitute for server-side throttling.
+
+<br/>
+
+## ✦ Connect
 
 <div align="center">
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-revolover00-7B2FBE?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/revo-code-6181283b5)
-[![YouTube](https://img.shields.io/badge/YouTube-@Revo--code-CC00FF?style=for-the-badge&logo=youtube&logoColor=white)](https://youtube.com/@Revo-code)
-[![X](https://img.shields.io/badge/X-@revo__codes-7B2FBE?style=for-the-badge&logo=x&logoColor=white)](https://x.com/revo_codes)
+[![GitHub](https://img.shields.io/badge/GitHub-revolover00-7B2FBE?style=for-the-badge&logo=github&logoColor=white)](https://github.com/revolover00/)
+[![X](https://img.shields.io/badge/X-@revo__codes-CC00FF?style=for-the-badge&logo=x&logoColor=white)](https://x.com/revo_codes)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-revo--code-7B2FBE?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/revo-code-6181283b5)
+[![YouTube](https://img.shields.io/badge/YouTube-@Revo--code-CC00FF?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/@Revo-code)
 
 </div>
 
----
+<br/>
 
-## 📄 License &nbsp; ![License](https://img.shields.io/badge/License-MIT-7B2FBE?style=for-the-badge)
+## ✦ License
 
-Licensed under the [MIT License](LICENSE).  
-Copyright © 2025 Baldwin Portfolio.
+Licensed under the [MIT License](LICENSE).
+© 2025 Baldwin Portfolio.
 
----
+<br/>
 
+<div align="center">
 <img src="https://capsule-render.vercel.app/api?type=waving&color=7B2FBE&height=120&section=footer" width="100%"/>
+</div>

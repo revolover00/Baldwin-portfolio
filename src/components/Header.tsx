@@ -36,7 +36,7 @@ export default function Header({ currentTab, onNavigate, showSplash }: HeaderPro
         {/* Left Side: Logo (src="/logo.webp") */}
         <div 
           onClick={() => handleNavClick("#home")}
-          className="flex items-center cursor-pointer z-10 group min-w-[100px] sm:min-w-[140px] h-9 sm:h-14 relative"
+          className="flex items-center cursor-pointer z-10 group flex-1 justify-start h-9 sm:h-14 relative"
         >
           {!logoFailed ? (
             !showSplash && (
@@ -70,24 +70,24 @@ export default function Header({ currentTab, onNavigate, showSplash }: HeaderPro
         </div>
 
         {/* Absolute Centered Navigation Links (Visible on both Mobile & Desktop) */}
-        <div className="absolute left-1/2 -translate-x-1/2 flex items-center space-x-3 sm:space-x-6 md:space-x-8 z-10">
+        <div className="absolute left-1/2 -translate-x-1/2 flex items-center space-x-1 sm:space-x-4 md:space-x-6 z-10">
           {navItems.map((item) => {
             const isActive = currentTab === item.id || (item.id === "work" && currentTab === "project");
             return (
               <button
                 key={item.id}
                 onClick={() => handleNavClick(item.route)}
-                className="text-[9px] sm:text-[13px] font-extrabold sm:font-semibold uppercase tracking-widest transition-colors duration-300 hover:text-[#E8D5F5] relative py-1 cursor-pointer whitespace-nowrap"
+                className="text-[10px] sm:text-[13px] font-black sm:font-semibold uppercase tracking-widest transition-all duration-300 hover:text-white hover:bg-white/5 rounded-lg px-2 py-1.5 sm:px-4 sm:py-2 cursor-pointer whitespace-nowrap flex flex-col items-center justify-center relative touch-manipulation min-h-[40px]"
                 style={{
                   color: isActive ? "#E8D5F5" : "#A78BCA",
                   textShadow: "0 1.5px 6px rgba(0, 0, 0, 0.95)"
                 }}
               >
-                {item.label}
+                <span>{item.label}</span>
                 {isActive && (
                   <motion.div
                     layoutId="activeTabSword"
-                    className="absolute bottom-[-10px] sm:bottom-[-14px] left-1/2 -translate-x-1/2 pointer-events-none flex items-center justify-center h-4 w-8 sm:w-12"
+                    className="absolute bottom-[-1px] left-1/2 -translate-x-1/2 pointer-events-none flex items-center justify-center h-4 w-8 sm:w-12"
                     transition={{ type: "spring", stiffness: 380, damping: 28 }}
                   >
                     <svg 
@@ -121,25 +121,8 @@ export default function Header({ currentTab, onNavigate, showSplash }: HeaderPro
           })}
         </div>
 
-        {/* Right side: Available Badge */}
-        <div className="flex items-center justify-end min-w-[100px] sm:min-w-[140px]">
-          <div className="hidden sm:flex items-center space-x-2 bg-white/5 border border-[#CC00FF]/30 px-3 py-1.5 rounded-full cursor-pointer hover:bg-white/10 transition-colors pointer-events-auto" onClick={() => handleNavClick("#quote")}>
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#CC00FF] opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#CC00FF]"></span>
-            </span>
-            <span className="text-[10px] font-bold uppercase tracking-wider text-[#E8D5F5] whitespace-nowrap">
-              Available
-            </span>
-          </div>
-          {/* Mobile minimal badge */}
-          <div className="sm:hidden flex items-center justify-center h-6 w-6 rounded-full bg-white/5 border border-[#CC00FF]/30 cursor-pointer" onClick={() => handleNavClick("#quote")}>
-            <span className="relative flex h-1.5 w-1.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#CC00FF] opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#CC00FF]"></span>
-            </span>
-          </div>
-        </div>
+        {/* Right side: Flex balance spacer */}
+        <div className="flex items-center justify-end flex-1" />
       </div>
     </nav>
   );

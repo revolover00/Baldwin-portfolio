@@ -30,6 +30,7 @@ export default function App() {
     return hash.replace("#", "") || "home";
   });
   const lenisRef = useRef<Lenis | null>(null);
+  const isProgrammaticScrollRef = useRef<string | null>(null);
 
   // Pre-load work projects immediately so that they are loaded on any page
   useEffect(() => {
@@ -64,34 +65,60 @@ export default function App() {
       const pId = targetHash.substring(9);
       setRoute({ tab: "project", projectId: pId });
       window.location.hash = targetHash;
+      isProgrammaticScrollRef.current = null; // reset lock
       return;
     }
 
     const tab = targetHash.replace("#", "") || "home";
+    setActiveTab(tab);
+    isProgrammaticScrollRef.current = tab; // lock interactions
     
     if (route.tab === "project") {
       setRoute({ tab: "home", projectId: "" });
-      window.location.hash = targetHash;
-      
-      setTimeout(() => {
-        const element = document.getElementById(tab);
-        if (element && lenisRef.current) {
-          lenisRef.current.scrollTo(element, {
-            duration: 1.4,
-            offset: -80,
-          });
-        }
-      }, 150);
-    } else {
-      window.location.hash = targetHash;
-      const element = document.getElementById(tab);
-      if (element && lenisRef.current) {
-        lenisRef.current.scrollTo(element, {
-          duration: 1.4,
-          offset: -80,
-        });
-      }
     }
+    
+    window.location.hash = targetHash;
+
+    // Direct fail-safe unlock
+    const activeLockTimer = setTimeout(() => {
+      if (isProgrammaticScrollRef.current === tab) {
+        isProgrammaticScrollRef.current = null;
+      }
+    }, 1500);
+
+    const startTime = Date.now();
+    const tryScroll = () => {
+      const element = document.getElementById(tab);
+      if (element) {
+        if (lenisRef.current) {
+          lenisRef.current.scrollTo(element, {
+            duration: 1.2,
+            offset: -80,
+            immediate: false,
+            onComplete: () => {
+              if (isProgrammaticScrollRef.current === tab) {
+                isProgrammaticScrollRef.current = null;
+              }
+            }
+          });
+        } else {
+          const yOffset = -80;
+          const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+          window.scrollTo({ top: y, behavior: "smooth" });
+          if (isProgrammaticScrollRef.current === tab) {
+            isProgrammaticScrollRef.current = null;
+          }
+        }
+      } else if (Date.now() - startTime < 2000) {
+        requestAnimationFrame(tryScroll);
+      } else {
+        if (isProgrammaticScrollRef.current === tab) {
+          isProgrammaticScrollRef.current = null;
+        }
+      }
+    };
+
+    setTimeout(tryScroll, 30);
   };
 
   useEffect(() => {
@@ -142,6 +169,7 @@ export default function App() {
     if (showSplash) return;
 
     if (route.tab === "project") {
+      isProgrammaticScrollRef.current = null;
       // Scroll directly to absolute top (0)
       if (lenisRef.current) {
         lenisRef.current.scrollTo(0, { immediate: true });
@@ -161,12 +189,30 @@ export default function App() {
     } else {
       const initialHash = window.location.hash.replace("#", "");
       if (initialHash && ["home", "work", "about", "quote"].includes(initialHash)) {
-        const timer = setTimeout(() => {
+        isProgrammaticScrollRef.current = initialHash;
+        const startTime = Date.now();
+        const trySyncScroll = () => {
           const el = document.getElementById(initialHash);
-          if (el && lenisRef.current) {
-            lenisRef.current.scrollTo(el, { duration: 0.1, offset: -80, immediate: true });
+          if (el) {
+            if (lenisRef.current) {
+              lenisRef.current.scrollTo(el, { duration: 0.1, offset: -80, immediate: true });
+              setTimeout(() => {
+                isProgrammaticScrollRef.current = null;
+              }, 150);
+            } else {
+              const yOffset = -80;
+              const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+              window.scrollTo({ top: y });
+              isProgrammaticScrollRef.current = null;
+            }
+          } else if (Date.now() - startTime < 2000) {
+            requestAnimationFrame(trySyncScroll);
+          } else {
+            isProgrammaticScrollRef.current = null;
           }
-        }, 150);
+        };
+        // Launch after minor initial delay
+        const timer = setTimeout(trySyncScroll, 100);
         return () => clearTimeout(timer);
       }
     }
@@ -184,6 +230,9 @@ export default function App() {
     };
 
     const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      // Ignore scroll viewport intersections if we are undergoing a programmatic navigation scroll
+      if (isProgrammaticScrollRef.current) return;
+
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           const sectionId = entry.target.id;
@@ -297,20 +346,12 @@ export default function App() {
               <AnimatePresence mode="wait">
                 <motion.div
                   key={`${route.tab}-${route.projectId}`}
-                  initial={
-                    route.tab === "project"
-                      ? { opacity: 0, scale: 0.95 }
-                      : { opacity: 0 }
-                  }
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={
-                    route.tab === "project"
-                      ? { opacity: 0, scale: 0.95 }
-                      : { opacity: 0 }
-                  }
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
                   transition={{
-                    duration: 0.6,
-                    ease: [0.16, 1, 0.3, 1]
+                    duration: 0.35,
+                    ease: "easeOut"
                   }}
                   className="w-full h-full"
                 >
@@ -321,7 +362,6 @@ export default function App() {
                       {/* Atmospheric separator */}
                       <div className="w-full h-24 sm:h-32 relative flex items-center justify-center pointer-events-none opacity-60">
                         <div className="absolute w-[1px] h-full bg-gradient-to-b from-transparent via-[#7B2FBE]/30 to-transparent" />
-                        <div className="w-1.5 h-1.5 rounded-full bg-[#CC00FF]/40 blur-[1px] animate-pulse" />
                       </div>
 
                       <Work onNavigate={navigateToRoute} />
@@ -329,7 +369,6 @@ export default function App() {
                       {/* Atmospheric separator */}
                       <div className="w-full h-24 sm:h-32 relative flex items-center justify-center pointer-events-none opacity-60">
                         <div className="absolute w-[1px] h-full bg-gradient-to-b from-transparent via-[#7B2FBE]/30 to-transparent" />
-                        <div className="w-1.5 h-1.5 rounded-full bg-[#CC00FF]/40 blur-[1px] animate-pulse" />
                       </div>
 
                       <About />
@@ -337,7 +376,6 @@ export default function App() {
                       {/* Atmospheric separator */}
                       <div className="w-full h-24 sm:h-32 relative flex items-center justify-center pointer-events-none opacity-60">
                         <div className="absolute w-[1px] h-full bg-gradient-to-b from-transparent via-[#7B2FBE]/30 to-transparent" />
-                        <div className="w-1.5 h-1.5 rounded-full bg-[#CC00FF]/40 blur-[1px] animate-pulse" />
                       </div>
 
                       <Testimonials />
@@ -345,7 +383,6 @@ export default function App() {
                       {/* Atmospheric separator */}
                       <div className="w-full h-24 sm:h-32 relative flex items-center justify-center pointer-events-none opacity-60">
                         <div className="absolute w-[1px] h-full bg-gradient-to-b from-transparent via-[#7B2FBE]/30 to-transparent" />
-                        <div className="w-1.5 h-1.5 rounded-full bg-[#CC00FF]/40 blur-[1px] animate-pulse" />
                       </div>
 
                       <Contact />

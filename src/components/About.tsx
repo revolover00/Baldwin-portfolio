@@ -267,22 +267,6 @@ export default function About() {
             transition={{ duration: 0.5, ease: "easeOut" }}
             className="text-left space-y-4 sm:space-y-6 max-w-3xl"
           >
-            {/* Title badge with pulsing magenta dot */}
-            <div 
-              className="inline-flex items-center space-x-2 px-2.5 py-1 rounded-full border text-[9px] sm:text-xs font-mono tracking-wider uppercase mb-1 sm:mb-2"
-              style={{
-                backgroundColor: "rgba(123, 47, 190, 0.1)",
-                borderColor: "rgba(204, 0, 255, 0.2)",
-                color: "#E8D5F5"
-              }}
-            >
-              <span className="relative flex h-1.5 w-1.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#CC00FF] opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#CC00FF]"></span>
-              </span>
-              <span>Architect</span>
-            </div>
-
             <h2 className="text-2xl sm:text-4xl md:text-5.5xl font-black tracking-tight select-none [text-shadow:0_0_30px_rgba(204,0,255,0.4)]" style={{ color: "#E8D5F5" }}>
               Baldwin Portfolio
             </h2>

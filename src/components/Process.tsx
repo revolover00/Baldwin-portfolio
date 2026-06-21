@@ -74,14 +74,8 @@ export default function Process() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.8 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="flex flex-col items-start gap-3"
+          className="flex flex-col items-start gap-1"
         >
-          <div className="inline-flex items-center space-x-2 bg-white/5 border border-white/10 px-3 py-1.5 rounded-full">
-            <span className="w-2 h-2 rounded-full bg-[#CC00FF] animate-pulse" />
-            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-[#E8D5F5]">
-              Process
-            </span>
-          </div>
           <h2 className="text-2xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight text-white mb-2 font-display">
             How I Work
           </h2>

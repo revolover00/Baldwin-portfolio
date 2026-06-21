@@ -9,6 +9,7 @@ import Contact from "./components/Contact";
 import ProjectDetail from "./components/ProjectDetail";
 import Splash from "./components/Splash";
 import Ferrofluid from "./components/Ferrofluid";
+import FloatingTechIcons from "./components/FloatingTechIcons";
 import CustomCursor from "./components/CustomCursor";
 import { Twitter, Linkedin, Youtube, Github } from "lucide-react";
 import { Store } from "./store";
@@ -280,6 +281,9 @@ export default function App() {
                 />
               )}
             </div>
+
+            {/* Ambient floating tech-stack logos */}
+            <FloatingTechIcons />
 
             {/* Render header targeting the dynamically monitored active tab */}
             <Header 

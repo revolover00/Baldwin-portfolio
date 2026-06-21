@@ -43,21 +43,21 @@ const Ferrofluid: React.FC<FerrofluidProps> = ({
       }}
     >
       <div className="absolute inset-0 z-0 bg-[#06010A] overflow-hidden">
-        {/* Soft, modern ambient glowing circles with orbital floating animations */}
+        {/* Soft, modern ambient glowing circles */}
         <div 
-          className="absolute w-[100vw] h-[100vw] lg:w-[45vw] lg:h-[45vw] rounded-full blur-[100px] lg:blur-[140px] animate-float-1 top-[-20%] left-[-20%] opacity-40 mix-blend-screen"
+          className="absolute w-[100vw] h-[100vw] lg:w-[45vw] lg:h-[45vw] rounded-full blur-[100px] lg:blur-[140px] top-[-20%] left-[-20%] opacity-40 mix-blend-screen"
           style={{
             backgroundColor: colorList[0]
           }}
         />
         <div 
-          className="absolute w-[90vw] h-[90vw] lg:w-[40vw] lg:h-[40vw] rounded-full blur-[110px] lg:blur-[150px] animate-float-2 bottom-[-10%] right-[-10%] opacity-30 mix-blend-screen"
+          className="absolute w-[90vw] h-[90vw] lg:w-[40vw] lg:h-[40vw] rounded-full blur-[110px] lg:blur-[150px] bottom-[-10%] right-[-10%] opacity-30 mix-blend-screen"
           style={{
             backgroundColor: colorList[1]
           }}
         />
         <div 
-          className="absolute w-[85vw] h-[85vw] lg:w-[35vw] lg:h-[35vw] rounded-full blur-[90px] lg:blur-[130px] animate-float-3 top-[35%] left-[25%] opacity-25 mix-blend-screen"
+          className="absolute w-[85vw] h-[85vw] lg:w-[35vw] lg:h-[35vw] rounded-full blur-[90px] lg:blur-[130px] top-[35%] left-[25%] opacity-25 mix-blend-screen"
           style={{
             backgroundColor: colorList[2]
           }}

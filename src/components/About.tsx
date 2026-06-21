@@ -35,6 +35,19 @@ import {
   RefreshCw,
   Lock
 } from "lucide-react";
+import {
+  SiReact,
+  SiTypescript,
+  SiTailwindcss,
+  SiFramer,
+  SiSupabase,
+  SiVite,
+  SiPostgresql,
+  SiGithub,
+  SiVercel,
+  SiGit,
+  SiGooglegemini,
+} from "react-icons/si";
 
 // Helper function to return beautiful custom icons with themed colors for technical skills/tools
 const getSkillIcon = (name: string) => {
@@ -42,29 +55,34 @@ const getSkillIcon = (name: string) => {
   switch (name.toLowerCase()) {
     // Frameworks & Libraries
     case "react":
-      return <Atom size={iconSize} className="text-[#61DAFB]" />;
+      return <SiReact size={iconSize} color="#61DAFB" />;
     case "typescript":
-      return <Layers size={iconSize} className="text-[#3178C6]" />;
+      return <SiTypescript size={iconSize} color="#3178C6" />;
     case "tailwindcss":
-      return <Palette size={iconSize} className="text-[#38BDF8]" />;
+      return <SiTailwindcss size={iconSize} color="#38BDF8" />;
     case "framer motion":
-      return <Zap size={iconSize} className="text-[#E10098]" />;
+      return <SiFramer size={iconSize} color="#E10098" />;
     case "vite":
-      return <Flame size={iconSize} className="text-[#646CFF]" />;
+      return <SiVite size={iconSize} color="#646CFF" />;
     case "supabase":
-      return <Database size={iconSize} className="text-[#3ECF8E]" />;
+      return <SiSupabase size={iconSize} color="#3ECF8E" />;
     case "postgresql":
-      return <Server size={iconSize} className="text-[#336791]" />;
+      return <SiPostgresql size={iconSize} color="#336791" />;
     case "rest apis":
       return <Globe size={iconSize} className="text-[#0FF0FC]" />;
     case "git & github":
-      return <GitBranch size={iconSize} className="text-[#F05032]" />;
+      return (
+        <div className="flex gap-1 items-center">
+          <SiGit size={iconSize} color="#F05032" />
+          <SiGithub size={iconSize} color="#FFFFFF" />
+        </div>
+      );
     case "vercel":
-      return <Globe size={iconSize} className="text-[#FFFFFF]" />;
+      return <SiVercel size={iconSize} color="#FFFFFF" />;
     case "lovable ai":
       return <Brain size={iconSize} className="text-[#FF80B5]" />;
     case "google ai studio":
-      return <Sparkles size={iconSize} className="text-[#FFD700]" />;
+      return <SiGooglegemini size={iconSize} color="#FFD700" />;
 
     // Advanced Competencies & Professional Skills
     case "frontend development":

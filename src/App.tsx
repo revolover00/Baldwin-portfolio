@@ -248,12 +248,15 @@ export default function App() {
             {/* Custom Ferrofluid interactive background shader */}
             <div 
               style={{ 
-                width: '100%', 
-                height: '100%', 
-                position: 'absolute', 
+                width: '105vw', 
+                height: '105vh', 
+                position: 'fixed', 
+                top: '-2vh',
+                left: '-2vw',
                 overflow: 'hidden', 
                 zIndex: 0,
-                opacity: route.tab === "project" ? 0.85 : 0.25,
+                opacity: route.tab === "project" ? 0.85 : 0.70,
+                pointerEvents: 'none',
                 transition: "opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1)"
               }}
             >

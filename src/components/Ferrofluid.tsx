@@ -1,192 +1,5 @@
-import React, { useEffect, useRef } from 'react';
-import { Renderer, Program, Mesh, Triangle } from 'ogl';
+import React from 'react';
 import './Ferrofluid.css';
-
-const MAX_COLORS = 8;
-
-const hexToRGB = (hex: string): [number, number, number] => {
-  const c = hex.replace('#', '').padEnd(6, '0');
-  const r = parseInt(c.slice(0, 2), 16) / 255;
-  const g = parseInt(c.slice(2, 4), 16) / 255;
-  const b = parseInt(c.slice(4, 6), 16) / 255;
-  return [r, g, b];
-};
-
-const prepColors = (input?: string[]) => {
-  const base = (input && input.length ? input : ['#4F46E5', '#06B6D4', '#E0F2FE']).slice(0, MAX_COLORS);
-  const count = base.length;
-  const arr: [number, number, number][] = [];
-  for (let i = 0; i < MAX_COLORS; i++) {
-    arr.push(hexToRGB(base[Math.min(i, base.length - 1)]));
-  }
-  const avg = [0, 0, 0];
-  for (let i = 0; i < count; i++) {
-    avg[0] += arr[i][0];
-    avg[1] += arr[i][1];
-    avg[2] += arr[i][2];
-  }
-  avg[0] /= count;
-  avg[1] /= count;
-  avg[2] /= count;
-  return { arr, count, avg };
-};
-
-const flowVec = (d?: string): [number, number] => {
-  switch (d) {
-    case 'up':
-      return [0, 1];
-    case 'down':
-      return [0, -1];
-    case 'left':
-      return [-1, 0];
-    case 'right':
-      return [1, 0];
-    default:
-      return [0, -1];
-  }
-};
-
-const vertex = `
-attribute vec2 position;
-attribute vec2 uv;
-varying vec2 vUv;
-void main() {
-  vUv = uv;
-  gl_Position = vec4(position, 0.0, 1.0);
-}
-`;
-
-const fragment = `
-precision highp float;
-
-uniform vec3  iResolution;
-uniform vec2  iMouse;
-uniform float iTime;
-
-uniform vec3  uColor0;
-uniform vec3  uColor1;
-uniform vec3  uColor2;
-uniform vec3  uColor3;
-uniform vec3  uColor4;
-uniform vec3  uColor5;
-uniform vec3  uColor6;
-uniform vec3  uColor7;
-uniform int   uColorCount;
-
-uniform vec3  uMouseColor;
-uniform vec2  uFlow;
-uniform float uSpeed;
-uniform float uScale;
-uniform float uTurbulence;
-uniform float uFluidity;
-uniform float uRimWidth;
-uniform float uSharpness;
-uniform float uShimmer;
-uniform float uGlow;
-uniform float uOpacity;
-uniform float uMouseEnabled;
-uniform float uMouseStrength;
-uniform float uMouseRadius;
-
-varying vec2 vUv;
-
-#define PI 3.14159265
-
-vec3 palette(float h) {
-  int count = uColorCount;
-  if (count < 1) count = 1;
-  int idx = int(floor(clamp(h, 0.0, 0.999999) * float(count)));
-  if (idx <= 0) return uColor0;
-  if (idx == 1) return uColor1;
-  if (idx == 2) return uColor2;
-  if (idx == 3) return uColor3;
-  if (idx == 4) return uColor4;
-  if (idx == 5) return uColor5;
-  if (idx == 6) return uColor6;
-  return uColor7;
-}
-
-float hash(vec3 p3) {
-  p3 = fract(p3 * 0.1031);
-  p3 += dot(p3, p3.zyx + 33.33);
-  return fract((p3.x + p3.y) * p3.z);
-}
-
-float smin(float a, float b, float k) {
-  float r = exp2(-a / k) + exp2(-b / k);
-  return -k * log2(r);
-}
-
-float sinlerp(float a, float b, float w) {
-  return mix(a, b, (sin(w * PI - PI / 2.0) + 1.0) / 2.0);
-}
-
-float vn(vec2 p, float s, float seed) {
-  vec2 cellp = floor(p / s);
-  vec2 relp = mod(p, s);
-  float g1 = hash(vec3(cellp, seed));
-  float g2 = hash(vec3(cellp.x + 1.0, cellp.y, seed));
-  float g3 = hash(vec3(cellp.x + 1.0, cellp.y + 1.0, seed));
-  float g4 = hash(vec3(cellp.x, cellp.y + 1.0, seed));
-  float bx = sinlerp(g1, g2, relp.x / s);
-  float tx = sinlerp(g4, g3, relp.x / s);
-  return sinlerp(bx, tx, relp.y / s);
-}
-
-float dbn(vec2 p, float s, float seed) {
-  // Ultra-optimized 3-octave blending for peak frame rates (60/120 FPS)
-  float o = s * 0.5;
-  float n0 = vn(p, s, seed);
-  float n1 = vn(p + vec2(o), s, seed + 0.1);
-  float n2 = vn(p - vec2(o), s, seed + 0.2);
-  return (3.0 * n0 + 2.0 * n1 + n2) / 6.0;
-}
-
-void mainImage(out vec4 fragColor, in vec2 fragCoord) {
-  float ref = 700.0 / max(uScale, 0.05);
-  vec2 p = fragCoord / iResolution.y * ref;
-
-  float spd = 200.0 * uSpeed;
-  float t = iTime;
-
-  vec2 dir = uFlow;
-  vec2 perp = vec2(-dir.y, dir.x);
-
-  float distort1 = vn(p + perp * (t * spd), 60.0, 10.0) * 50.0 * uTurbulence;
-  float distort2 = vn(p - perp * (t * spd), 120.0, 15.0) * 100.0 * uTurbulence;
-
-  float peaks = dbn(p + distort1 + dir * (t * spd * 0.5), 40.0, 1.0);
-  float peaks2 = dbn(p + distort2 - dir * (t * spd * 0.5), 40.0, 0.0);
-
-  float mapeaks = smin(peaks, peaks2, max(uFluidity, 0.001));
-
-  float mGlow = 0.0;
-  if (uMouseEnabled > 0.5) {
-    vec2 mp = iMouse / iResolution.y * ref;
-    float md = length(p - mp) / ref;
-    float rr = max(uMouseRadius, 0.02);
-    mGlow = exp(-md * md / (rr * rr)) * uMouseStrength;
-  }
-
-  float band = (uRimWidth - abs((mapeaks - 0.4) * 2.0)) * 5.0;
-  float ltn = clamp(band - vn(p + dir * (t * spd * 0.5), 60.0, 12.0) * uShimmer, 0.0, 1.0);
-  ltn = pow(ltn, uSharpness) * uGlow;
-  ltn *= clamp(1.0 - mGlow, 0.0, 1.0);
-
-  float h = clamp(0.5 + (peaks - peaks2) * 0.8, 0.0, 1.0);
-  vec3 col = palette(h);
-
-  vec3 outc = col * ltn;
-  float a = clamp(max(outc.r, max(outc.g, outc.b)), 0.0, 1.0);
-  fragColor = vec4(outc, a * uOpacity);
-}
-
-void main() {
-  vec4 color;
-  mainImage(color, vUv * iResolution.xy);
-  gl_FragColor = color;
-}
-`;
 
 interface FerrofluidProps {
   className?: string;
@@ -210,245 +23,98 @@ interface FerrofluidProps {
   mixBlendMode?: React.CSSProperties['mixBlendMode'];
 }
 
+const COLOR_VARIANTS = [
+  "text-[#CC00FF]/65 drop-shadow-[0_0_8px_rgba(204,0,255,0.4)]",
+  "text-[#8B5CF6]/55 drop-shadow-[0_0_6px_rgba(139,92,246,0.35)]",
+  "text-[#E8D5F5]/45 drop-shadow-[0_0_10px_rgba(232,213,245,0.3)]",
+  "text-[#A78BCA]/50 drop-shadow-[0_0_5px_rgba(167,139,202,0.35)]",
+];
+
+const CODE_ELEMENTS = [
+  { text: "const dev = 'Baldwin';", left: "4%", size: "11px", delay: "0s", duration: "17s", anim: "float-code-up", variant: 0 },
+  { text: "await synth.play();", left: "15%", size: "12px", delay: "3s", duration: "21s", anim: "float-code-diagonal", variant: 1 },
+  { text: "import { motion } from 'motion';", left: "28%", size: "10px", delay: "1.5s", duration: "25s", anim: "float-code-drift", variant: 2 },
+  { text: "function draw() { ... }", left: "42%", size: "12.5px", delay: "5s", duration: "19s", anim: "float-code-up", variant: 0 },
+  { text: "interface DeepPortfolio {", left: "55%", size: "11.5px", delay: "0.8s", duration: "23s", anim: "float-code-diagonal", variant: 3 },
+  { text: "gl_FragColor = vec4(col, 1.0);", left: "68%", size: "11px", delay: "7s", duration: "22s", anim: "float-code-drift", variant: 0 },
+  { text: "npm run build && node server.js", left: "82%", size: "12px", delay: "9s", duration: "26s", anim: "float-code-up", variant: 1 },
+  { text: "const [state, setState] = useState()", left: "93%", size: "11px", delay: "2.5s", duration: "20s", anim: "float-code-diagonal", variant: 2 },
+  { text: "export default function App()", left: "10%", size: "12.5px", delay: "4s", duration: "24s", anim: "float-code-drift", variant: 3 },
+  { text: "git commit -m 'feat: custom-cursor'", left: "33%", size: "11px", delay: "11s", duration: "18s", anim: "float-code-up", variant: 0 },
+  { text: "() => process.exit(0)", left: "60%", size: "13px", delay: "13s", duration: "22s", anim: "float-code-diagonal", variant: 1 },
+  { text: "<canvas ref={canvasRef} />", left: "88%", size: "12px", delay: "12s", duration: "25s", anim: "float-code-up", variant: 2 },
+  { text: "const gl = canvas.getContext('webgl')", left: "22%", size: "11px", delay: "6s", duration: "23s", anim: "float-code-drift", variant: 3 },
+  { text: "requestAnimationFrame(loop);", left: "48%", size: "12px", delay: "8s", duration: "20s", anim: "float-code-diagonal", variant: 0 },
+  { text: "transform: translate3d(0,0,0);", left: "75%", size: "11px", delay: "10s", duration: "24s", anim: "float-code-drift", variant: 1 },
+  { text: "window.innerWidth >= 1024", left: "95%", size: "12px", delay: "14s", duration: "22s", anim: "float-code-up", variant: 2 },
+  { text: "import { useSpring } from 'motion';", left: "2%", size: "11.5px", delay: "5.5s", duration: "21s", anim: "float-code-diagonal", variant: 3 },
+  { text: "ctx.closePath();", left: "37%", size: "11px", delay: "15s", duration: "23s", anim: "float-code-drift", variant: 0 },
+  { text: "01011001 01010101", left: "52%", size: "10.5px", delay: "17s", duration: "25s", anim: "float-code-up", variant: 1 },
+  { text: "mixBlendMode: 'screen'", left: "80%", size: "12.5px", delay: "8.5s", duration: "19s", anim: "float-code-diagonal", variant: 2 },
+];
+
 const Ferrofluid: React.FC<FerrofluidProps> = ({
   className,
-  dpr,
-  paused = false,
-  colors = ['#4F46E5', '#06B6D4', '#E0F2FE'],
-  speed = 0.5,
-  scale = 1.6,
-  turbulence = 1,
-  fluidity = 0.1,
-  rimWidth = 0.2,
-  sharpness = 2.5,
-  shimmer = 1.5,
-  glow = 2,
-  flowDirection = 'down',
+  colors = ['#8B5CF6', '#C084FC', '#F3E8FF'],
   opacity = 1,
-  mouseInteraction = true,
-  mouseStrength = 1,
-  mouseRadius = 0.35,
-  mouseDampening = 0.15,
   mixBlendMode
 }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const rafRef = useRef<number | null>(null);
-  const programRef = useRef<Program | null>(null);
-  const meshRef = useRef<Mesh | null>(null);
-  const geometryRef = useRef<Triangle | null>(null);
-  const rendererRef = useRef<Renderer | null>(null);
-  const mouseTargetRef = useRef<[number, number]>([0, 0]);
-  const lastTimeRef = useRef<number>(0);
-
-  const pausedRef = useRef(paused);
-  useEffect(() => {
-    pausedRef.current = paused;
-  }, [paused]);
-
-  useEffect(() => {
-    // PERFORMANCE: Completely disable WebGL background on mobile/small tablets
-    // Mobile GPUs struggle with high-end fractal shaders. Static gradients are 100% efficient.
-    const isMobileDevice = typeof window !== 'undefined' && window.innerWidth < 1024;
-    
-    const container = containerRef.current;
-    if (!container) return;
-
-    if (isMobileDevice) {
-      // High-performance light neon animation fallback for mobile
-      const mobileBg = document.createElement('div');
-      mobileBg.className = "absolute inset-0 z-0 bg-[#06010A] overflow-hidden";
-      mobileBg.innerHTML = `
-        <div class="absolute w-[100vw] h-[100vw] bg-[#A78BCA]/20 rounded-full blur-[80px] animate-[pulse_6s_ease-in-out_infinite] top-[-20%] left-[-20%]"></div>
-        <div class="absolute w-[90vw] h-[90vw] bg-[#CC00FF]/15 rounded-full blur-[80px] animate-[pulse_8s_ease-in-out_infinite_1s] bottom-[-10%] right-[-10%]"></div>
-        <div class="absolute w-[80vw] h-[80vw] bg-[#7B2FBE]/20 rounded-full blur-[80px] animate-[pulse_10s_ease-in-out_infinite_2s] top-[40%] left-[30%]"></div>
-      `;
-      container.appendChild(mobileBg);
-      return () => {
-        if (mobileBg.parentElement === container) container.removeChild(mobileBg);
-      };
-    }
-
-    let renderer: Renderer;
-    try {
-      // Cap DPR for performance: Desktop gets up to 1.0, Mobile gets 0.75 for peak performance
-      const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-      const baseDpr = isMobile ? 0.75 : 1.0;
-      const computedDpr = Math.min(baseDpr, dpr ?? (typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1));
-      
-      renderer = new Renderer({
-        dpr: computedDpr,
-        alpha: true,
-        antialias: false,
-        powerPreference: 'high-performance'
-      });
-      rendererRef.current = renderer;
-    } catch (e) {
-      console.warn("WebGL/OGL initialization failed or unsupported on this device. Engaging graceful layout fallback.", e);
-      const fallbackDiv = document.createElement('div');
-      fallbackDiv.className = "absolute inset-0 bg-radial from-purple-900/10 to-slate-950/40 opacity-40 backdrop-blur-2xl pointer-events-none";
-      container.appendChild(fallbackDiv);
-      return () => {
-        if (fallbackDiv.parentElement === container) {
-          container.removeChild(fallbackDiv);
-        }
-      };
-    }
-
-    const gl = renderer.gl;
-    const canvas = gl.canvas;
-    gl.clearColor(0, 0, 0, 0);
-    canvas.style.width = '100%';
-    canvas.style.height = '100%';
-    canvas.style.display = 'block';
-    container.appendChild(canvas);
-
-    const { arr, count, avg } = prepColors(colors);
-
-    const uniforms = {
-      iResolution: { value: [gl.drawingBufferWidth, gl.drawingBufferHeight, 1] },
-      iMouse: { value: [0, 0] },
-      iTime: { value: 0 },
-      uColor0: { value: arr[0] },
-      uColor1: { value: arr[1] },
-      uColor2: { value: arr[2] },
-      uColor3: { value: arr[3] },
-      uColor4: { value: arr[4] },
-      uColor5: { value: arr[5] },
-      uColor6: { value: arr[6] },
-      uColor7: { value: arr[7] },
-      uColorCount: { value: count },
-      uMouseColor: { value: avg },
-      uFlow: { value: flowVec(flowDirection) },
-      uSpeed: { value: speed },
-      uScale: { value: scale },
-      uTurbulence: { value: turbulence },
-      uFluidity: { value: fluidity },
-      uRimWidth: { value: rimWidth },
-      uSharpness: { value: sharpness },
-      uShimmer: { value: shimmer },
-      uGlow: { value: glow },
-      uOpacity: { value: opacity },
-      uMouseEnabled: { value: mouseInteraction ? 1 : 0 },
-      uMouseStrength: { value: mouseStrength },
-      uMouseRadius: { value: mouseRadius }
-    };
-
-    const program = new Program(gl, { vertex, fragment, uniforms });
-    programRef.current = program;
-
-    const geometry = new Triangle(gl);
-    geometryRef.current = geometry;
-    const mesh = new Mesh(gl, { geometry, program });
-    meshRef.current = mesh;
-
-    const resize = () => {
-      const rect = container.getBoundingClientRect();
-      renderer.setSize(rect.width, rect.height);
-      uniforms.iResolution.value = [gl.drawingBufferWidth, gl.drawingBufferHeight, 1];
-    };
-
-    resize();
-    const ro = new ResizeObserver(resize);
-    ro.observe(container);
-
-    const onPointerMove = (e: PointerEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      const sc = renderer.dpr || 1;
-      const x = (e.clientX - rect.left) * sc;
-      const y = (rect.height - (e.clientY - rect.top)) * sc;
-      mouseTargetRef.current = [x, y];
-      if (mouseDampening <= 0) {
-        uniforms.iMouse.value = [x, y];
-      }
-    };
-    if (mouseInteraction) {
-      canvas.addEventListener('pointermove', onPointerMove);
-    }
-
-    const loop = (t: number) => {
-      rafRef.current = requestAnimationFrame(loop);
-      uniforms.iTime.value = t * 0.001;
-      if (mouseDampening > 0) {
-        if (!lastTimeRef.current) lastTimeRef.current = t;
-        const dt = (t - lastTimeRef.current) / 1000;
-        lastTimeRef.current = t;
-        const tau = Math.max(1e-4, mouseDampening);
-        let factor = 1 - Math.exp(-dt / tau);
-        if (factor > 1) factor = 1;
-        const target = mouseTargetRef.current;
-        const cur = uniforms.iMouse.value;
-        cur[0] += (target[0] - cur[0]) * factor;
-        cur[1] += (target[1] - cur[1]) * factor;
-      } else {
-        lastTimeRef.current = t;
-      }
-      if (!pausedRef.current && programRef.current && meshRef.current) {
-        try {
-          renderer.render({ scene: meshRef.current });
-        } catch (e) {
-          console.error(e);
-        }
-      }
-    };
-    rafRef.current = requestAnimationFrame(loop);
-
-    return () => {
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-      if (mouseInteraction) canvas.removeEventListener('pointermove', onPointerMove);
-      ro.disconnect();
-      if (canvas.parentElement === container) {
-        container.removeChild(canvas);
-      }
-      const callIfFn = (obj: any, key: string) => {
-        const fn = obj && obj[key];
-        if (typeof fn === 'function') {
-          fn.call(obj);
-        }
-      };
-      callIfFn(programRef.current, 'remove');
-      callIfFn(geometryRef.current, 'remove');
-      callIfFn(meshRef.current, 'remove');
-      // renderer version check or call
-      if (rendererRef.current) {
-        const r = rendererRef.current as any;
-        if (typeof r.destroy === 'function') {
-          r.destroy();
-        } else if (typeof r.dispose === 'function') {
-          r.dispose();
-        }
-      }
-      programRef.current = null;
-      geometryRef.current = null;
-      meshRef.current = null;
-      rendererRef.current = null;
-    };
-  }, [
-    dpr,
-    colors,
-    speed,
-    scale,
-    turbulence,
-    fluidity,
-    rimWidth,
-    sharpness,
-    shimmer,
-    glow,
-    flowDirection,
-    opacity,
-    mouseInteraction,
-    mouseStrength,
-    mouseRadius,
-    mouseDampening
-  ]);
+  // Gracefully fallback to ultra-smooth hardware-accelerated CSS animations
+  // to achieve maximum 120 FPS on all high-resolution screen devices
+  const colorList = colors.length >= 3 ? colors : [...colors, '#8B5CF6', '#C084FC', '#F3E8FF'];
 
   return (
     <div
-      ref={containerRef}
       className={`ferrofluid-container ${className ?? ''}`}
       style={{
-        ...(mixBlendMode && { mixBlendMode })
+        ...(mixBlendMode && { mixBlendMode }),
+        opacity
       }}
-    />
+    >
+      <div className="absolute inset-0 z-0 bg-[#06010A] overflow-hidden">
+        {/* Soft, modern ambient glowing circles with orbital floating animations */}
+        <div 
+          className="absolute w-[100vw] h-[100vw] lg:w-[45vw] lg:h-[45vw] rounded-full blur-[100px] lg:blur-[140px] animate-float-1 top-[-20%] left-[-20%] opacity-40 mix-blend-screen"
+          style={{
+            backgroundColor: colorList[0]
+          }}
+        />
+        <div 
+          className="absolute w-[90vw] h-[90vw] lg:w-[40vw] lg:h-[40vw] rounded-full blur-[110px] lg:blur-[150px] animate-float-2 bottom-[-10%] right-[-10%] opacity-30 mix-blend-screen"
+          style={{
+            backgroundColor: colorList[1]
+          }}
+        />
+        <div 
+          className="absolute w-[85vw] h-[85vw] lg:w-[35vw] lg:h-[35vw] rounded-full blur-[90px] lg:blur-[130px] animate-float-3 top-[35%] left-[25%] opacity-25 mix-blend-screen"
+          style={{
+            backgroundColor: colorList[2]
+          }}
+        />
+
+        {/* Flying developer codes background layer */}
+        <div className="absolute inset-0 z-0 select-none pointer-events-none overflow-hidden">
+          {CODE_ELEMENTS.map((col, idx) => (
+            <div
+              key={idx}
+              className={`code-particle opacity-0 ${COLOR_VARIANTS[col.variant]}`}
+              style={{
+                left: col.left,
+                fontSize: col.size,
+                animationDelay: col.delay,
+                animationDuration: col.duration,
+                animationIterationCount: 'infinite',
+                animationTimingFunction: 'linear',
+                animationName: col.anim,
+                willChange: 'transform, opacity',
+              }}
+            >
+              {col.text}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 };
 

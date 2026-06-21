@@ -139,7 +139,26 @@ export default function App() {
 
   // Sync scroll to top or target hash on mount
   useEffect(() => {
-    if (!showSplash && route.tab !== "project") {
+    if (showSplash) return;
+
+    if (route.tab === "project") {
+      // Scroll directly to absolute top (0)
+      if (lenisRef.current) {
+        lenisRef.current.scrollTo(0, { immediate: true });
+      } else {
+        window.scrollTo(0, 0);
+      }
+
+      // Reinforce top positioning after intermediate transition frame layout calculation
+      const timer = setTimeout(() => {
+        if (lenisRef.current) {
+          lenisRef.current.scrollTo(0, { immediate: true });
+        } else {
+          window.scrollTo(0, 0);
+        }
+      }, 80);
+      return () => clearTimeout(timer);
+    } else {
       const initialHash = window.location.hash.replace("#", "");
       if (initialHash && ["home", "work", "about", "quote"].includes(initialHash)) {
         const timer = setTimeout(() => {
@@ -151,7 +170,7 @@ export default function App() {
         return () => clearTimeout(timer);
       }
     }
-  }, [showSplash, route.tab]);
+  }, [showSplash, route.tab, route.projectId]);
 
   // Viewport Intersection Observer to highlight Header nav dynamically during scrolling
   useEffect(() => {

@@ -66,4 +66,11 @@ html {
   }
 }
 
+/* Hide default cursor on desktop when using custom sword cursor */
+@media (min-width: 1024px) {
+  html, body, button, a, input, textarea, select, [role="button"], .cursor-pointer {
+    cursor: none !important;
+  }
+}
+
 

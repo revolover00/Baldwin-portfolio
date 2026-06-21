@@ -49,24 +49,56 @@ export default function CustomCursor() {
 
   return (
     <motion.div
-      className="fixed top-0 left-0 pointer-events-none z-[99999] mix-blend-screen"
+      className="fixed top-0 left-0 pointer-events-none z-[99999]"
       animate={{
-        x: mousePosition.x - 16,
-        y: mousePosition.y - 16,
-        scale: isHovering ? 1.5 : 1,
+        x: mousePosition.x,
+        y: mousePosition.y,
+        scale: isHovering ? 1.25 : 1,
       }}
       transition={{
-        type: "tween",
-        ease: "backOut",
-        duration: 0.15,
+        type: "spring",
+        stiffness: 800,
+        damping: 32,
+        mass: 0.1,
       }}
     >
       <div 
-        className={`w-8 h-8 rounded-full border transition-colors duration-300 ${
-          isHovering ? "border-[#CC00FF] bg-[#CC00FF]/10 scale-125" : "border-[#7B2FBE]/50"
-        }`}
+        className="absolute transition-transform duration-300 ease-out"
+        style={{
+          width: "64px",
+          height: "64px",
+          left: "-32px",
+          top: "-64px",
+          transformOrigin: "32px 64px",
+          transform: isHovering 
+            ? "rotate(-155deg) scale(1.1)" 
+            : "rotate(-140deg)",
+        }}
+      >
+        <img 
+          src="/2312.png" 
+          alt="Sword Cursor" 
+          className="w-full h-full object-contain"
+          style={{
+            filter: isHovering 
+              ? "drop-shadow(0 0 12px rgba(204,0,255,0.95)) drop-shadow(0 0 4px rgba(204,0,255,0.73))" 
+              : "drop-shadow(0 0 6px rgba(204,0,255,0.65))"
+          }}
+        />
+      </div>
+
+      {/* Embedded interactive sparkle under the pointer tip */}
+      <div 
+        className="absolute rounded-full bg-[#CC00FF] transition-all duration-300"
+        style={{
+          width: isHovering ? "6px" : "3px",
+          height: isHovering ? "6px" : "3px",
+          left: isHovering ? "-3px" : "-1.5px",
+          top: isHovering ? "-3px" : "-1.5px",
+          boxShadow: "0 0 10px #CC00FF, 0 0 4px #E8D5F5",
+          opacity: isHovering ? 1 : 0.6,
+        }}
       />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1 h-1 rounded-full bg-[#E8D5F5]" />
     </motion.div>
   );
 }

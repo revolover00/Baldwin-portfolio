@@ -125,10 +125,20 @@ export default function Home({ onNavigate, showSplash }: HomeProps) {
       });
     };
 
+    let frameCount = 0;
     const draw = () => {
+      frameCount++;
+      const isMobile = window.innerWidth < 768;
+      
+      // On mobile, skip every other frame for a massive 2x decrease in CPU load
+      // The motion is slow enough that 30 FPS vs 60 FPS is negligible for embers
+      if (isMobile && frameCount % 2 !== 0) {
+        requestAnimationFrame(draw);
+        return;
+      }
+
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      const isMobile = window.innerWidth < 768;
       // Spawn new embers randomly (lower frequency on mobile)
       if (Math.random() < (isMobile ? 0.06 : 0.12)) {
         spawnEmber();

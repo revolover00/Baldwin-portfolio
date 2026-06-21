@@ -8,10 +8,12 @@ interface SplashProps {
 
 export default function Splash({ onComplete }: SplashProps) {
   useEffect(() => {
-    // Automatically transition to the app after 2.8 seconds
+    // Faster transition on mobile for better perceived speed
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 1024;
+    const splashTime = isMobile ? 1800 : 2500;
     const timer = setTimeout(() => {
       onComplete();
-    }, 2800);
+    }, splashTime);
 
     return () => clearTimeout(timer);
   }, [onComplete]);

@@ -241,8 +241,27 @@ const Ferrofluid: React.FC<FerrofluidProps> = ({
   const lastTimeRef = useRef<number>(0);
 
   useEffect(() => {
+    // PERFORMANCE: Completely disable WebGL background on mobile/small tablets
+    // Mobile GPUs struggle with high-end fractal shaders. Static gradients are 100% efficient.
+    const isMobileDevice = typeof window !== 'undefined' && window.innerWidth < 1024;
+    
     const container = containerRef.current;
     if (!container) return;
+
+    if (isMobileDevice) {
+      // High-performance light neon animation fallback for mobile
+      const mobileBg = document.createElement('div');
+      mobileBg.className = "absolute inset-0 z-0 bg-[#06010A] overflow-hidden";
+      mobileBg.innerHTML = `
+        <div class="absolute w-[100vw] h-[100vw] bg-[#6B4F8A]/20 rounded-full blur-[80px] animate-[pulse_6s_ease-in-out_infinite] top-[-20%] left-[-20%]"></div>
+        <div class="absolute w-[90vw] h-[90vw] bg-[#CC00FF]/15 rounded-full blur-[80px] animate-[pulse_8s_ease-in-out_infinite_1s] bottom-[-10%] right-[-10%]"></div>
+        <div class="absolute w-[80vw] h-[80vw] bg-[#7B2FBE]/20 rounded-full blur-[80px] animate-[pulse_10s_ease-in-out_infinite_2s] top-[40%] left-[30%]"></div>
+      `;
+      container.appendChild(mobileBg);
+      return () => {
+        if (mobileBg.parentElement === container) container.removeChild(mobileBg);
+      };
+    }
 
     let renderer: Renderer;
     try {

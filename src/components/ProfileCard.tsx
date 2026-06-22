@@ -46,7 +46,7 @@ export default function ProfileCard() {
       />
 
       {/* Profile Card Content Overlay */}
-      <div className="absolute inset-0 flex flex-col justify-end p-8 z-20 select-none pb-12">
+      <div className="absolute inset-0 flex flex-col justify-end p-8 z-20 pb-12">
         
         {/* Name and Verified Badge */}
         <div className="flex items-center space-x-2.5 mb-2">

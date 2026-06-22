@@ -259,7 +259,7 @@ export default function About() {
             transition={{ duration: 0.5, ease: "easeOut" }}
             className="text-left space-y-4 sm:space-y-6 max-w-3xl"
           >
-            <h2 className="text-2xl sm:text-4xl md:text-5.5xl font-black tracking-tight select-none [text-shadow:0_0_30px_rgba(204,0,255,0.4)]" style={{ color: "#E8D5F5" }}>
+            <h2 className="text-2xl sm:text-4xl md:text-5.5xl font-black tracking-tight [text-shadow:0_0_30px_rgba(204,0,255,0.4)]" style={{ color: "#E8D5F5" }}>
               Baldwin Portfolio
             </h2>
             
@@ -327,7 +327,7 @@ export default function About() {
                   boxShadow: "0 22px 50px -10px rgba(204, 0, 255, 0.3), 0 0 20px 2px rgba(204, 0, 255, 0.15)"
                 }}
                 whileTap={{ scale: 0.98 }}
-                className="p-4 sm:p-6 rounded-xl sm:rounded-2xl gothic-card cursor-pointer select-none group/card"
+                className="p-4 sm:p-6 rounded-xl sm:rounded-2xl gothic-card cursor-pointer group/card"
               >
                 <div className="flex items-center space-x-2.5 mb-3 sm:mb-4 z-20 relative">
                   {React.cloneElement(category.icon as React.ReactElement, { size: 14, className: "sm:w-4.5 sm:h-4.5" })}
@@ -450,7 +450,7 @@ export default function About() {
                   boxShadow: "0 22px 50px -10px rgba(204, 0, 255, 0.3), 0 0 20px 2px rgba(204, 0, 255, 0.15)" 
                 }}
                 whileTap={{ scale: 0.98 }}
-                className="p-5 rounded-2xl border flex flex-col justify-center h-28 cursor-pointer select-none group/card relative overflow-hidden transition-all duration-500 ease-out"
+                className="p-5 rounded-2xl border flex flex-col justify-center h-28 cursor-pointer group/card relative overflow-hidden transition-all duration-500 ease-out"
                 style={{
                   backgroundColor: "rgba(123, 47, 190, 0.08)",
                   borderColor: "rgba(123, 47, 190, 0.25)"
@@ -501,7 +501,7 @@ export default function About() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.4, ease: "easeOut" }}
-          className="relative rounded-2xl overflow-hidden p-[1.5px] select-none border border-[#CC00FF]/15"
+          className="relative rounded-2xl overflow-hidden p-[1.5px] border border-[#CC00FF]/15"
           style={{
             boxShadow: "0 10px 30px rgba(0,0,0,0.5)",
             backgroundColor: "rgba(10, 0, 16, 0.96)"

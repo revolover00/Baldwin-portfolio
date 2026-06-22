@@ -158,7 +158,7 @@ export const Store = {
       senderName: 'Guest',
       subject: sanitizedSubject,
       body: enhancedBody,
-      createdAt: new Date().toISOString(),
+      createdAt: String(Date.now()),
     };
 
     const { error } = await supabase.from('messages').insert([message]);

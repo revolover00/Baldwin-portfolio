@@ -141,7 +141,7 @@ export default function Home({ onNavigate, showSplash }: HomeProps) {
   }, []);
 
   return (
-    <div id="home" className="relative min-h-screen text-[#ECE6F4] flex flex-col justify-center items-center overflow-x-hidden selection:bg-[#CC00FF]/20 selection:text-white select-none">
+    <div id="home" className="relative min-h-screen text-[#ECE6F4] flex flex-col justify-center items-center overflow-x-hidden selection:bg-[#CC00FF]/20 selection:text-white">
       
       {/* Premium ambient particle canvas */}
       <div className="absolute inset-0 w-full h-full pointer-events-none z-0">

@@ -31,17 +31,8 @@ export default function CustomCursor() {
 
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      if (
-        target.tagName.toLowerCase() === "button" ||
-        target.tagName.toLowerCase() === "a" ||
-        target.closest("button") ||
-        target.closest("a") ||
-        target.closest(".cursor-pointer")
-      ) {
-        setIsHovering(true);
-      } else {
-        setIsHovering(false);
-      }
+      const interactiveEl = target.closest("button, a, .cursor-pointer");
+      setIsHovering(!!interactiveEl);
     };
 
     window.addEventListener("mousemove", updateMousePosition);

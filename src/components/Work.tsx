@@ -12,9 +12,11 @@ export default function Work({ onNavigate }: WorkProps) {
   const [projects, setProjects] = useState<Project[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState("All");
+  const [showAll, setShowAll] = useState(false);
 
   const categories = ["All", ...Array.from(new Set(projects.map(p => p.category)))].filter(Boolean);
   const filteredProjects = activeCategory === "All" ? projects : projects.filter(p => p.category === activeCategory);
+  const visibleProjects = showAll ? filteredProjects : filteredProjects.slice(0, 3);
 
   useEffect(() => {
     let active = true;
@@ -30,6 +32,11 @@ export default function Work({ onNavigate }: WorkProps) {
       active = false;
     };
   }, []);
+
+  // Reset showAll when category changes
+  useEffect(() => {
+    setShowAll(false);
+  }, [activeCategory]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -133,105 +140,126 @@ export default function Work({ onNavigate }: WorkProps) {
           </p>
         </motion.div>
       ) : (
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-8"
-        >
-          {filteredProjects.map((project) => (
-            <motion.div
-              key={project.id}
-              variants={itemVariants}
-              whileHover={{ 
-                y: -8,
-              }}
-              whileTap={{ scale: 0.96 }}
-              className="group/card rounded-xl gothic-card flex flex-col cursor-pointer"
-              onClick={() => onNavigate(`#project/${project.id}`)}
-            >
-              {/* Card Media Preview */}
-              <div className="relative aspect-video w-full overflow-hidden bg-[#0A0010] flex items-center justify-center z-10">
-                {project.mediaUrl ? (
-                  <img
-                    src={project.mediaUrl}
-                    alt={project.title}
-                    referrerPolicy="no-referrer"
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-105"
-                  />
-                ) : (
-                  <div className="flex flex-col items-center justify-center">
-                    <Video size={30} className="text-[#A78BCA]/30 transition-colors duration-300 group-hover/card:text-[#7B2FBE]/50 sm:w-10 sm:h-10" />
-                  </div>
-                )}
-                
-                {/* Visual Accent Banner */}
-                <div className="absolute top-2 left-2 sm:top-3 sm:left-3 flex space-x-2">
-                  <span
-                    className="text-[9px] sm:text-xs font-semibold px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full border backdrop-blur-md"
-                    style={{
-                      backgroundColor: "rgba(204, 0, 255, 0.15)",
-                      borderColor: "rgba(204, 0, 255, 0.25)",
-                      color: "#CC00FF",
-                    }}
-                  >
-                    {project.category}
-                  </span>
-                </div>
-              </div>
-
-              {/* Card Meta Content */}
-              <div className="p-4 sm:p-6 flex flex-col flex-grow">
-                <h3 
-                  className="text-base sm:text-xl font-bold tracking-tight mb-1 sm:mb-2 group-hover:text-[#CC00FF] transition-colors duration-300"
-                  style={{ color: "#E8D5F5" }}
-                >
-                  {project.title}
-                </h3>
-                <p className="text-[9px] sm:text-xs font-mono mb-2 sm:mb-4 text-[#A78BCA]">
-                  {project.subtitle}
-                </p>
-                <p className="text-[11px] sm:text-sm line-clamp-2 sm:line-clamp-3 mb-4 sm:mb-6 flex-grow" style={{ color: "#A78BCA" }}>
-                  {project.description}
-                </p>
-
-                {/* Keyboard / Skills list tags */}
-                <div className="flex flex-wrap gap-1 mb-4 sm:gap-1.5 sm:mb-6">
-                  {project.skills.slice(0, 3).map((skill) => (
-                    <span
-                      key={skill}
-                      className="text-[8px] sm:text-[10px] font-mono px-1.5 py-0.5 rounded border"
-                      style={{
-                        backgroundColor: "rgba(123, 47, 190, 0.05)",
-                        borderColor: "rgba(123, 47, 190, 0.15)",
-                        color: "#6B4F8A",
-                      }}
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                  {project.skills.length > 3 && (
-                    <span
-                      className="text-[8px] sm:text-[10px] font-mono px-1.5 py-0.5 rounded"
-                      style={{
-                        color: "#6B4F8A",
-                      }}
-                    >
-                      +{project.skills.length - 3} more
-                    </span>
+        <div className="space-y-12">
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-8"
+          >
+            {visibleProjects.map((project) => (
+              <motion.div
+                key={project.id}
+                variants={itemVariants}
+                whileHover={{ 
+                  y: -8,
+                }}
+                whileTap={{ scale: 0.96 }}
+                className="group/card rounded-xl gothic-card flex flex-col cursor-pointer"
+                onClick={() => onNavigate(`#project/${project.id}`)}
+              >
+                {/* Card Media Preview */}
+                <div className="relative aspect-video w-full overflow-hidden bg-[#0A0010] flex items-center justify-center z-10">
+                  {project.mediaUrl ? (
+                    <img
+                      src={project.mediaUrl}
+                      alt={project.title}
+                      referrerPolicy="no-referrer"
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-105"
+                    />
+                  ) : (
+                    <div className="flex flex-col items-center justify-center">
+                      <Video size={30} className="text-[#A78BCA]/30 transition-colors duration-300 group-hover/card:text-[#7B2FBE]/50 sm:w-10 sm:h-10" />
+                    </div>
                   )}
+                  
+                  {/* Visual Accent Banner */}
+                  <div className="absolute top-2 left-2 sm:top-3 sm:left-3 flex space-x-2">
+                    <span
+                      className="text-[9px] sm:text-xs font-semibold px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full border backdrop-blur-md"
+                      style={{
+                        backgroundColor: "rgba(204, 0, 255, 0.15)",
+                        borderColor: "rgba(204, 0, 255, 0.25)",
+                        color: "#CC00FF",
+                      }}
+                    >
+                      {project.category}
+                    </span>
+                  </div>
                 </div>
 
-                {/* Footer interactive prompt */}
-                <div className="flex items-center text-[10px] sm:text-xs font-bold uppercase tracking-wider group-hover/card:translate-x-1 transition-transform duration-300 mt-auto z-20" style={{ color: "#CC00FF" }}>
-                  <span className="mr-1.5 whitespace-nowrap">View Details</span>
-                  <ArrowRight size={12} className="sm:w-3.5 sm:h-3.5" />
-                </div>
-              </div>
+                {/* Card Meta Content */}
+                <div className="p-4 sm:p-6 flex flex-col flex-grow">
+                  <h3 
+                    className="text-base sm:text-xl font-bold tracking-tight mb-1 sm:mb-2 group-hover:text-[#CC00FF] transition-colors duration-300"
+                    style={{ color: "#E8D5F5" }}
+                  >
+                    {project.title}
+                  </h3>
+                  <p className="text-[9px] sm:text-xs font-mono mb-2 sm:mb-4 text-[#A78BCA]">
+                    {project.subtitle}
+                  </p>
+                  <p className="text-[11px] sm:text-sm line-clamp-2 sm:line-clamp-3 mb-4 sm:mb-6 flex-grow" style={{ color: "#A78BCA" }}>
+                    {project.description}
+                  </p>
 
+                  {/* Keyboard / Skills list tags */}
+                  <div className="flex flex-wrap gap-1 mb-4 sm:gap-1.5 sm:mb-6">
+                    {project.skills.slice(0, 3).map((skill) => (
+                      <span
+                        key={skill}
+                        className="text-[8px] sm:text-[10px] font-mono px-1.5 py-0.5 rounded border"
+                        style={{
+                          backgroundColor: "rgba(123, 47, 190, 0.05)",
+                          borderColor: "rgba(123, 47, 190, 0.15)",
+                          color: "#6B4F8A",
+                        }}
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                    {project.skills.length > 3 && (
+                      <span
+                        className="text-[8px] sm:text-[10px] font-mono px-1.5 py-0.5 rounded"
+                        style={{
+                          color: "#6B4F8A",
+                        }}
+                      >
+                        +{project.skills.length - 3} more
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Footer interactive prompt */}
+                  <div className="flex items-center text-[10px] sm:text-xs font-bold uppercase tracking-wider group-hover/card:translate-x-1 transition-transform duration-300 mt-auto z-20" style={{ color: "#CC00FF" }}>
+                    <span className="mr-1.5 whitespace-nowrap">View Details</span>
+                    <ArrowRight size={12} className="sm:w-3.5 sm:h-3.5" />
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+
+          {/* Show More Button */}
+          {filteredProjects.length > 3 && (
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="flex justify-center pt-4"
+            >
+              <button
+                onClick={() => setShowAll(!showAll)}
+                className="group relative px-8 py-3 rounded-full font-bold uppercase tracking-widest text-[10px] sm:text-xs overflow-hidden transition-all duration-300 gothic-card border border-[#CC00FF]/30 hover:border-[#CC00FF]/60 text-[#E8D5F5] hover:text-white"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-[#CC00FF]/0 via-[#CC00FF]/5 to-[#CC00FF]/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+                <span className="relative z-10 flex items-center space-x-2">
+                  <span>{showAll ? "Show Less" : "View All Projects"}</span>
+                  <ArrowRight size={14} className={`transition-transform duration-300 ${showAll ? "-rotate-90" : "rotate-90 sm:rotate-0"}`} />
+                </span>
+              </button>
             </motion.div>
-          ))}
-        </motion.div>
+          )}
+        </div>
       )}
     </div>
   );

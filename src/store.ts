@@ -15,16 +15,17 @@ export function escapeHtml(text: string): string {
 
 // Backward compatibility mapper so the existing UI sections (gallery, skills, subtitle etc) continue to render beautifully!
 const mapToUIProject = (dbProj: any): Project => {
-  if (!dbProj) return dbProj;
+  if (!dbProj) return dbProj as Project;
   return {
     ...dbProj,
+    id: String(dbProj.id),
     subtitle: dbProj.subtitle || dbProj.category || "Web Project",
     detailedDescription: dbProj.detailedDescription || dbProj.caseStudy || dbProj.description || "",
     mediaUrl: dbProj.mediaUrl || dbProj.imageUrl || "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2670&auto=format&fit=crop",
     websiteUrl: dbProj.websiteUrl || dbProj.visitUrl || "#",
     gallery: dbProj.gallery || (dbProj.media ? dbProj.media.map((m: any) => m.url) : []),
     skills: dbProj.skills || (dbProj.category ? [dbProj.category] : ["React", "TypeScript", "TailwindCSS", "Framer Motion", "Vite"])
-  };
+  } as Project;
 };
 
 // In-memory cache to handle immediate navigation matching without storing projects in localStorage on the visitor's device
@@ -41,13 +42,17 @@ export const Store = {
       if (cached) {
         const parsed = JSON.parse(cached);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          console.log("Using cached projects from sessionStorage.");
+          if (import.meta.env.DEV) {
+            console.log("Using cached projects from sessionStorage.");
+          }
           memoryProjectsCache = parsed;
           return parsed;
         }
       }
     } catch (e) {
-      console.warn("Failed to read from sessionStorage:", e);
+      if (import.meta.env.DEV) {
+        console.warn("Failed to read from sessionStorage:", e);
+      }
     }
 
     // If Supabase keys are not set up yet, silently fall back to the demo projects
@@ -73,9 +78,13 @@ export const Store = {
         // Cache in sessionStorage for active session duration
         try {
           sessionStorage.setItem("session_projects_cache", JSON.stringify(mapped));
-          console.log("Projects loaded freshly from database and cached in sessionStorage.");
+          if (import.meta.env.DEV) {
+            console.log("Projects loaded freshly from database and cached in sessionStorage.");
+          }
         } catch (e) {
-          console.warn("Failed to write to sessionStorage:", e);
+          if (import.meta.env.DEV) {
+            console.warn("Failed to write to sessionStorage:", e);
+          }
         }
         
         return mapped;
@@ -86,7 +95,9 @@ export const Store = {
       return DEFAULT_PROJECTS;
 
     } catch (e) {
-      console.warn("Supabase fetch failed, falling back to default projects:", e);
+      if (import.meta.env.DEV) {
+        console.warn("Supabase fetch failed, falling back to default projects:", e);
+      }
       memoryProjectsCache = DEFAULT_PROJECTS;
       return DEFAULT_PROJECTS;
     }
@@ -111,7 +122,9 @@ export const Store = {
         }
       }
     } catch (e) {
-      console.warn("Failed to lookup cached project in sessionStorage:", e);
+      if (import.meta.env.DEV) {
+        console.warn("Failed to lookup cached project in sessionStorage:", e);
+      }
     }
 
     // Try fallback

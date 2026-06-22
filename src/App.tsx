@@ -34,7 +34,9 @@ export default function App() {
   // Pre-load work projects immediately so that they are loaded on any page
   useEffect(() => {
     Store.getProjects().catch((err) => {
-      console.warn("Could not pre-load projects:", err);
+      if (import.meta.env.DEV) {
+        console.warn("Could not pre-load projects:", err);
+      }
     });
   }, []);
 

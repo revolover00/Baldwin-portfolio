@@ -129,9 +129,13 @@ function CountUp({ value }: { value: string }) {
   const isInView = useInView(elementRef, { once: true, margin: "-50px" });
   const parsed = value.match(/^([^\d]*)(\d+)([^\d]*)$/);
 
+  const targetStr = parsed ? parsed[2] : "";
+  const prefix = parsed ? parsed[1] : "";
+  const suffix = parsed ? parsed[3] : "";
+
   useEffect(() => {
-    if (!isInView || !parsed) return;
-    const target = parseInt(parsed[2], 10);
+    if (!isInView || !targetStr) return;
+    const target = parseInt(targetStr, 10);
     
     // Ensure we start strictly at 0
     setCount(0);
@@ -165,14 +169,11 @@ function CountUp({ value }: { value: string }) {
         cancelAnimationFrame(animationFrameId);
       }
     };
-  }, [isInView, value, parsed]);
+  }, [isInView, targetStr]);
 
   if (!parsed) {
     return <span>{value}</span>;
   }
-
-  const prefix = parsed[1];
-  const suffix = parsed[3];
 
   return (
     <span ref={elementRef} className="tabular-nums inline-block font-mono">

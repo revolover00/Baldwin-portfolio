@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import { Project } from "../types";
 import { Store } from "../store";
 import { Briefcase, ArrowRight, Video } from "lucide-react";

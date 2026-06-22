@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import { ArrowLeft, Globe, BadgeCheck, FileText, LayoutGrid } from "lucide-react";
 import { Store } from "../store";
 import { Project } from "../types";

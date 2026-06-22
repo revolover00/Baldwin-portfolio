@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 
 interface HeaderProps {
   currentTab: string; // e.g. 'home', 'work', 'about', 'quote', or 'project'

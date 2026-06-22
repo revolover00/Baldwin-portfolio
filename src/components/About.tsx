@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { motion, animate, useInView } from "motion/react";
+import { motion, useInView } from "framer-motion";
 import ProfileCard from "./ProfileCard";
 import Process from "./Process";
 import { 
@@ -9,21 +9,12 @@ import {
   Rocket, 
   Cpu, 
   BarChart3,
-  Linkedin,
-  Youtube,
-  Twitter,
-  Github,
-  Share2,
-  Atom,
   Layers,
   Palette,
   Zap,
-  Flame,
   Server,
   Globe,
-  GitBranch,
   Brain,
-  Sparkles,
   Shield,
   Workflow,
   Eye,
@@ -174,7 +165,7 @@ function CountUp({ value }: { value: string }) {
         cancelAnimationFrame(animationFrameId);
       }
     };
-  }, [isInView, value]);
+  }, [isInView, value, parsed]);
 
   if (!parsed) {
     return <span>{value}</span>;
@@ -292,149 +283,6 @@ export default function About() {
           </div>
         </section>
 
-        {/* Social Channels Section */}
-        <motion.section 
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.4, ease: "easeOut" }}
-          className="space-y-6"
-        >
-          <div className="flex items-center space-x-3">
-            <div className="p-1.5 sm:p-2.5 rounded-xl flex items-center justify-center animate-pulse" style={{ backgroundColor: "rgba(204, 0, 255, 0.1)" }}>
-              <Share2 size={16} className="sm:w-5 sm:h-5" style={{ color: "#CC00FF" }} />
-            </div>
-            <h3 className="text-lg md:text-2xl font-bold tracking-tight" style={{ color: "#E8D5F5" }}>
-              Social Channels
-            </h3>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            <motion.a 
-              href="https://github.com/revolover00/"
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ 
-                scale: 1.02, 
-                y: -6,
-                boxShadow: "0 22px 50px -10px rgba(204, 0, 255, 0.32), 0 0 20px 2px rgba(204, 0, 255, 0.15)"
-              }}
-              whileTap={{ scale: 0.98 }}
-              className="p-5 sm:p-8 rounded-xl sm:rounded-2xl gothic-card flex flex-col items-center justify-center text-center group/card cursor-pointer"
-            >
-              <div className="p-3 sm:p-5 rounded-full mb-3 sm:mb-4 transition-all duration-500 group-hover/card:scale-105 z-20" style={{ backgroundColor: "rgba(255, 255, 255, 0.08)" }}>
-                <Github size={28} className="sm:w-11 sm:h-11" style={{ color: "#ffffff" }} />
-              </div>
-              <h4 className="font-bold text-xs sm:text-lg tracking-wide z-20 transition-colors duration-300 group-hover/card:text-white" style={{ color: "#E8D5F5" }}>
-                GitHub
-              </h4>
-              <p className="text-[10px] sm:text-sm mt-1 z-20 hidden sm:block" style={{ color: "#A78BCA" }}>
-                Explore open source
-              </p>
-
-              {/* Radiant inner floating neon glow effect that activates smoothly on hover */}
-              <div 
-                className="absolute inset-0 opacity-0 group-hover/card:opacity-100 transition-opacity duration-700 bg-[radial-gradient(circle_at_center,rgba(204,0,255,0.15)_0%,transparent_75%)] pointer-events-none z-10"
-              />
-
-              {/* Decorative premium hover border highlight with animated magenta/purple outline */}
-              <div className="absolute inset-0 border border-white/0 group-hover/card:border-[#CC00FF]/30 rounded-2xl transition-colors pointer-events-none duration-500 z-30" />
-            </motion.a>
-
-            <motion.a 
-              href="https://www.linkedin.com/in/revo-code-6181283b5"
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ 
-                scale: 1.02, 
-                y: -6,
-                boxShadow: "0 22px 50px -10px rgba(204, 0, 255, 0.32), 0 0 20px 2px rgba(204, 0, 255, 0.15)"
-              }}
-              whileTap={{ scale: 0.98 }}
-              className="p-5 sm:p-8 rounded-xl sm:rounded-2xl gothic-card flex flex-col items-center justify-center text-center group/card cursor-pointer"
-            >
-              <div className="p-3 sm:p-5 rounded-full mb-3 sm:mb-4 transition-all duration-500 group-hover/card:scale-105 z-20" style={{ backgroundColor: "rgba(0, 119, 181, 0.1)" }}>
-                <Linkedin size={28} className="sm:w-11 sm:h-11" style={{ color: "#0077B5" }} />
-              </div>
-              <h4 className="font-bold text-xs sm:text-lg tracking-wide z-20 transition-colors duration-300 group-hover/card:text-white" style={{ color: "#E8D5F5" }}>
-                LinkedIn
-              </h4>
-              <p className="text-[10px] sm:text-sm mt-1 z-20 hidden sm:block" style={{ color: "#A78BCA" }}>
-                Connect professionally
-              </p>
-
-              {/* Radiant inner floating neon glow effect that activates smoothly on hover */}
-              <div 
-                className="absolute inset-0 opacity-0 group-hover/card:opacity-100 transition-opacity duration-700 bg-[radial-gradient(circle_at_center,rgba(204,0,255,0.15)_0%,transparent_75%)] pointer-events-none z-10"
-              />
-
-              {/* Decorative premium hover border highlight with animated magenta/purple outline */}
-              <div className="absolute inset-0 border border-white/0 group-hover/card:border-[#CC00FF]/30 rounded-2xl transition-colors pointer-events-none duration-500 z-30" />
-            </motion.a>
-
-            <motion.a 
-              href="https://www.youtube.com/@Revo-code"
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ 
-                scale: 1.02, 
-                y: -6,
-                boxShadow: "0 22px 50px -10px rgba(204, 0, 255, 0.32), 0 0 20px 2px rgba(204, 0, 255, 0.15)"
-              }}
-              whileTap={{ scale: 0.98 }}
-              className="p-5 sm:p-8 rounded-xl sm:rounded-2xl gothic-card flex flex-col items-center justify-center text-center group/card cursor-pointer"
-            >
-              <div className="p-3 sm:p-5 rounded-full mb-3 sm:mb-4 transition-all duration-500 group-hover/card:scale-105 z-20" style={{ backgroundColor: "rgba(255, 0, 0, 0.1)" }}>
-                <Youtube size={28} className="sm:w-11 sm:h-11" style={{ color: "#FF0000" }} />
-              </div>
-              <h4 className="font-bold text-xs sm:text-lg tracking-wide z-20 transition-colors duration-300 group-hover/card:text-white" style={{ color: "#E8D5F5" }}>
-                YouTube
-              </h4>
-              <p className="text-[10px] sm:text-sm mt-1 z-20 hidden sm:block" style={{ color: "#A78BCA" }}>
-                Subscribe now
-              </p>
-
-              {/* Radiant inner floating neon glow effect that activates smoothly on hover */}
-              <div 
-                className="absolute inset-0 opacity-0 group-hover/card:opacity-100 transition-opacity duration-700 bg-[radial-gradient(circle_at_center,rgba(204,0,255,0.15)_0%,transparent_75%)] pointer-events-none z-10"
-              />
-
-              {/* Decorative premium hover border highlight with animated magenta/purple outline */}
-              <div className="absolute inset-0 border border-white/0 group-hover/card:border-[#CC00FF]/30 rounded-2xl transition-colors pointer-events-none duration-500 z-30" />
-            </motion.a>
-
-            <motion.a 
-              href="https://x.com/revo_codes"
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ 
-                scale: 1.02, 
-                y: -6,
-                boxShadow: "0 22px 50px -10px rgba(204, 0, 255, 0.32), 0 0 20px 2px rgba(204, 0, 255, 0.15)"
-              }}
-              whileTap={{ scale: 0.98 }}
-              className="p-5 sm:p-8 rounded-xl sm:rounded-2xl gothic-card flex flex-col items-center justify-center text-center group/card cursor-pointer"
-            >
-              <div className="p-3 sm:p-5 rounded-full mb-3 sm:mb-4 transition-all duration-500 group-hover/card:scale-105 z-20" style={{ backgroundColor: "rgba(255, 255, 255, 0.05)" }}>
-                <Twitter size={28} className="sm:w-11 sm:h-11" style={{ color: "#E8D5F5" }} />
-              </div>
-              <h4 className="font-bold text-xs sm:text-lg tracking-wide z-20 transition-colors duration-300 group-hover/card:text-white" style={{ color: "#E8D5F5" }}>
-                X / Twitter
-              </h4>
-              <p className="text-[10px] sm:text-sm mt-1 z-20 hidden sm:block" style={{ color: "#A78BCA" }}>
-                Follow me
-              </p>
-
-              {/* Radiant inner floating neon glow effect that activates smoothly on hover */}
-              <div 
-                className="absolute inset-0 opacity-0 group-hover/card:opacity-100 transition-opacity duration-700 bg-[radial-gradient(circle_at_center,rgba(204,0,255,0.15)_0%,transparent_75%)] pointer-events-none z-10"
-              />
-
-              {/* Decorative premium hover border highlight with animated magenta/purple outline */}
-              <div className="absolute inset-0 border border-white/0 group-hover/card:border-[#CC00FF]/30 rounded-2xl transition-colors pointer-events-none duration-500 z-30" />
-            </motion.a>
-          </div>
-        </motion.section>
 
         {/* Section 2 — Skills */}
         <motion.section 

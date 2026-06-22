@@ -2,6 +2,17 @@ import { supabase, isSupabaseConfigured } from './integrations/supabase/client';
 import type { Message } from './integrations/supabase/types';
 import type { Project } from './types';
 
+// Helper function to escape HTML characters and prevent potential XSS injection attacks
+export function escapeHtml(text: string): string {
+  if (!text) return "";
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
 // Backward compatibility mapper so the existing UI sections (gallery, skills, subtitle etc) continue to render beautifully!
 const mapToUIProject = (dbProj: any): Project => {
   if (!dbProj) return dbProj;
@@ -120,16 +131,21 @@ export const Store = {
 
     const id = Date.now().toString(36) + Math.random().toString(36).substring(2, 7);
     
+    // Explicitly sanitize all incoming fields to protect against HTML injection (XSS attacks)
+    const sanitizedEmail = escapeHtml(msg.senderEmail.trim());
+    const sanitizedSubject = escapeHtml(msg.subject.trim());
+    const sanitizedBody = escapeHtml(msg.body.trim());
+
     // Embed the sender's email directly into the message body content as part of the payload
-    const enhancedBody = `[Sender Email: ${msg.senderEmail}]\n\n${msg.body}`;
+    const enhancedBody = `[Sender Email: ${sanitizedEmail}]\n\n${sanitizedBody}`;
 
     const message: Message = {
       id,
-      senderEmail: msg.senderEmail,
+      senderEmail: sanitizedEmail,
       senderName: 'Guest',
-      subject: msg.subject,
+      subject: sanitizedSubject,
       body: enhancedBody,
-      createdAt: Date.now(),
+      createdAt: new Date().toISOString(),
     };
 
     const { error } = await supabase.from('messages').insert([message]);
@@ -149,7 +165,7 @@ const DEFAULT_PROJECTS: Project[] = [
     imageUrl: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2670&auto=format&fit=crop",
     mainMediaType: "image",
     visitUrl: "https://github.com",
-    createdAt: Date.now() - 1000 * 60 * 60 * 24 * 1, // 1 day ago
+    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 1).toISOString(), // 1 day ago
     skills: ["WebGL", "Three.js", "GLSL", "React Three Fiber", "TypeScript"],
     media: null,
     caseStudy: null
@@ -164,7 +180,7 @@ const DEFAULT_PROJECTS: Project[] = [
     imageUrl: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2670&auto=format&fit=crop",
     mainMediaType: "image",
     visitUrl: "https://github.com",
-    createdAt: Date.now() - 1000 * 60 * 60 * 24 * 3, // 3 days ago
+    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 3).toISOString(), // 3 days ago
     skills: ["React", "Gemini SDK", "Node.js", "TailwindCSS", "Framer Motion"],
     media: null,
     caseStudy: null
@@ -179,7 +195,7 @@ const DEFAULT_PROJECTS: Project[] = [
     imageUrl: "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?q=80&w=2669&auto=format&fit=crop",
     mainMediaType: "image",
     visitUrl: "https://github.com",
-    createdAt: Date.now() - 1000 * 60 * 60 * 24 * 7, // 7 days ago
+    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 7).toISOString(), // 7 days ago
     skills: ["Web Audio API", "HTML5 Canvas", "TailwindCSS", "TypeScript", "React"],
     media: null,
     caseStudy: null

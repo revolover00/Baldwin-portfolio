@@ -1,19 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { motion } from "motion/react";
-import { ArrowRight, MessageSquare, Twitter, Linkedin, Instagram, Youtube } from "lucide-react";
+import { motion } from "framer-motion";
+import { ArrowRight, MessageSquare } from "lucide-react";
 
 interface HomeProps {
   onNavigate: (route: string) => void;
   showSplash?: boolean;
-}
-
-interface Snippet {
-  id: number;
-  text: string;
-  x: number; // percentage left (e.g. 10 to 90)
-  duration: number; // seconds
-  delay: number; // seconds
-  fontSize: number; // px
 }
 
 interface Ember {
@@ -28,7 +19,6 @@ interface Ember {
 
 export default function Home({ onNavigate, showSplash }: HomeProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const [snippets, setSnippets] = useState<Snippet[]>([]);
   const [typedLength, setTypedLength] = useState(0);
   const fullTitle = "Hi, I'm Baldwin";
   const baseText = "Hi, I'm ";
@@ -59,36 +49,6 @@ export default function Home({ onNavigate, showSplash }: HomeProps) {
     };
   }, [showSplash]);
 
-  // Generate code fragments once on load
-  useEffect(() => {
-    const rawSnippets = [
-      "<React.Fragment />",
-      "const app = express();",
-      "npm install",
-      "git commit -m 'init'",
-      "interface Props {}",
-      "export default",
-      "useEffect(() => {}, [])",
-      "const [state, setState] = useState()",
-      "import { motion } from 'motion/react'",
-      "type VoidFn = () => void;",
-      "boxShadow: '0 0 30px rgba(204,0,255,0.1)'",
-      "process.env.GEMINI_API_KEY",
-      "scale: [1, 1.1, 1]"
-    ];
-
-    const generated = rawSnippets.map((text, idx) => ({
-      id: idx,
-      text,
-      x: 5 + (idx * 13) % 90, // distributed layout
-      duration: 15 + (idx * 4) % 15, // speed variance
-      delay: (idx * 2) % 12, // staggered delay
-      fontSize: 11 + (idx % 3) // 11px to 13px
-    }));
-
-    setSnippets(generated);
-  }, []);
-
   // HTML5 Canvas interactive embers particle system
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -98,6 +58,7 @@ export default function Home({ onNavigate, showSplash }: HomeProps) {
 
     let animationFrameId: number;
     let embers: Ember[] = [];
+    let lastTime = performance.now();
 
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
@@ -114,49 +75,42 @@ export default function Home({ onNavigate, showSplash }: HomeProps) {
 
     const spawnEmber = () => {
       const isMobile = window.innerWidth < 768;
-      const maxEmbers = isMobile ? 12 : 25;
-      if (embers.length > maxEmbers) return; // Highly optimized: Limit max active embers
+      const maxEmbers = isMobile ? 30 : 50; 
+      if (embers.length > maxEmbers) return; 
       const rColor = colors[Math.floor(Math.random() * colors.length)];
       embers.push({
         x: Math.random() * canvas.width,
         y: canvas.height + 20,
         size: 1 + Math.random() * (isMobile ? 1.5 : 2.5),
-        speedY: -(0.4 + Math.random() * (isMobile ? 0.8 : 1.2)),
+        speedY: -(0.04 + Math.random() * (isMobile ? 0.08 : 0.12)), // Scaled for delta
         opacity: 0.15 + Math.random() * 0.45,
-        fadeSpeed: 0.001 + Math.random() * 0.002,
+        fadeSpeed: 0.0001 + Math.random() * 0.0002, // Scaled for delta
         color: rColor
       });
     };
 
-    let frameCount = 0;
-    const draw = () => {
-      frameCount++;
+    const draw = (currentTime: number) => {
+      const delta = currentTime - lastTime;
+      lastTime = currentTime;
+
       const isMobile = window.innerWidth < 768;
       
-      // On mobile, skip every other frame for a massive 2x decrease in CPU load
-      // The motion is slow enough that 30 FPS vs 60 FPS is negligible for embers
-      if (isMobile && frameCount % 2 !== 0) {
-        requestAnimationFrame(draw);
-        return;
-      }
-
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Spawn new embers randomly (lower frequency on mobile)
-      if (Math.random() < (isMobile ? 0.06 : 0.12)) {
+      // Spawn new embers based on actual time elapsed to keep frequency consistent
+      if (Math.random() < (isMobile ? 0.012 : 0.02) * delta) {
         spawnEmber();
       }
 
       embers.forEach((ember, idx) => {
-        ember.y += ember.speedY;
-        ember.opacity -= ember.fadeSpeed;
+        ember.y += ember.speedY * delta;
+        ember.opacity -= ember.fadeSpeed * delta;
 
-        // horizontal wander
-        ember.x += Math.sin(ember.y / 30) * 0.25;
+        // horizontal wander based on time
+        ember.x += Math.sin(ember.y / 30) * 0.02 * delta;
 
         // HIGH PERFORMANCE GLOW EFFECT
         if (!isMobile) {
-          // Outer soft glow aura only on desktop for peak performance
           ctx.beginPath();
           ctx.arc(ember.x, ember.y, ember.size * 2.5, 0, Math.PI * 2);
           ctx.fillStyle = `rgba(204, 0, 255, ${ember.opacity * 0.15})`;
@@ -170,7 +124,7 @@ export default function Home({ onNavigate, showSplash }: HomeProps) {
         ctx.fill();
 
         // Remove out-of-screen or fully transparent embers
-        if (ember.y < -10 || ember.opacity <= 0) {
+        if (ember.y < -20 || ember.opacity <= 0) {
           embers.splice(idx, 1);
         }
       });
@@ -178,7 +132,7 @@ export default function Home({ onNavigate, showSplash }: HomeProps) {
       animationFrameId = requestAnimationFrame(draw);
     };
 
-    draw();
+    animationFrameId = requestAnimationFrame(draw);
 
     return () => {
       window.removeEventListener("resize", resizeCanvas);

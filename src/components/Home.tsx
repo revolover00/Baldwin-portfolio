@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, MessageSquare } from "lucide-react";
+import { useLanguage } from "../context/LanguageContext";
 
 interface HomeProps {
   onNavigate: (route: string) => void;
@@ -20,13 +21,14 @@ interface Ember {
 export default function Home({ onNavigate, showSplash }: HomeProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [typedLength, setTypedLength] = useState(0);
-  const fullTitle = "Hi, I'm Baldwin";
-  const baseText = "Hi, I'm ";
+  const { t, language } = useLanguage();
+  const fullTitle = t("home_name");
+  const baseText = t("home_welcome");
 
   // Premium typewriter effect
   useEffect(() => {
+    setTypedLength(0);
     if (showSplash) {
-      setTypedLength(0);
       return;
     }
 
@@ -40,14 +42,14 @@ export default function Home({ onNavigate, showSplash }: HomeProps) {
         if (current >= fullTitle.length) {
           clearInterval(intervalId);
         }
-      }, 100);
-    }, 500);
+      }, 80);
+    }, 400);
 
     return () => {
       clearTimeout(startTimeout);
       if (intervalId) clearInterval(intervalId);
     };
-  }, [showSplash]);
+  }, [showSplash, language, fullTitle]);
 
   // HTML5 Canvas interactive embers particle system
   useEffect(() => {
@@ -154,9 +156,10 @@ export default function Home({ onNavigate, showSplash }: HomeProps) {
           
           {/* Main Hero Title */}
           <motion.h1 
-            className="text-3xl sm:text-7xl md:text-8xl font-extrabold tracking-tight leading-[1.05]"
+            className="text-3xl sm:text-7xl md:text-8xl font-black tracking-tight leading-[1.05]"
             style={{
-              fontFamily: "'Syne', sans-serif"
+              fontFamily: language === "ar" ? "'Badeen Display', 'Alexandria', 'Cairo', sans-serif" : "'Syne', sans-serif",
+              fontWeight: 900
             }}
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -178,11 +181,14 @@ export default function Home({ onNavigate, showSplash }: HomeProps) {
           {/* Subtitle description with elegant line height */}
           <motion.p
             className="text-xs sm:text-lg md:text-xl font-light leading-relaxed text-[#A78BCA] max-w-2xl px-4 sm:px-0"
+            style={{
+              fontFamily: language === "ar" ? "'Alyamama', sans-serif" : "inherit"
+            }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
           >
-            Building immersive digital experiences, interactive web applications, and visually stunning interfaces. Blending high-end design with advanced frontend craft.
+            {t("home_subtitle")}
           </motion.p>
 
           {/* Call-to-actions */}
@@ -214,7 +220,7 @@ export default function Home({ onNavigate, showSplash }: HomeProps) {
               }}
               className="px-6 sm:px-8 py-3 sm:py-4 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all border cursor-pointer flex items-center space-x-2 backdrop-blur-md bg-white/5 border-white/20 text-white"
             >
-              <span>Get a Quote</span>
+              <span>{t("home_btn_quote")}</span>
               <MessageSquare size={12} className="text-[#CC00FF]" />
             </motion.button>
 
@@ -226,7 +232,7 @@ export default function Home({ onNavigate, showSplash }: HomeProps) {
               onClick={() => onNavigate("#work")}
               className="px-6 sm:px-8 py-3 sm:py-4 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all cursor-pointer flex items-center space-x-2 bg-white text-[#06010A]"
             >
-              <span>View Work</span>
+              <span>{t("home_btn_work")}</span>
               <ArrowRight size={12} />
             </motion.button>
           </motion.div>

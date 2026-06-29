@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 import { Search, PenTool, Code2, Rocket, LucideProps } from "lucide-react";
+import { useLanguage } from "../context/LanguageContext";
 
 interface Step {
   icon: React.FC<LucideProps>;
@@ -125,6 +126,7 @@ function StepCard({ step, index }: { step: Step, index: number }) {
 }
 
 export default function Process() {
+  const { t } = useLanguage();
   const sectionRef = useRef<HTMLDivElement>(null);
   
   // Track scroll position across the process section
@@ -148,8 +150,8 @@ export default function Process() {
   const steps = [
     {
       icon: Search,
-      title: "Discovery",
-      desc: "Deep dive into your brand, audience, and goals.",
+      title: t("process_step1_title"),
+      desc: t("process_step1_desc"),
       align: "left",
       nodeProgress: node1Progress,
       nodeTop: "15%",
@@ -157,8 +159,8 @@ export default function Process() {
     },
     {
       icon: PenTool,
-      title: "Design",
-      desc: "Crafting the visual identity and user experience.",
+      title: t("process_step2_title"),
+      desc: t("process_step2_desc"),
       align: "right",
       nodeProgress: node2Progress,
       nodeTop: "40%",
@@ -166,8 +168,8 @@ export default function Process() {
     },
     {
       icon: Code2,
-      title: "Build",
-      desc: "Robust, performant engineering and animation.",
+      title: t("process_step3_title"),
+      desc: t("process_step3_desc"),
       align: "left",
       nodeProgress: node3Progress,
       nodeTop: "65%",
@@ -175,8 +177,8 @@ export default function Process() {
     },
     {
       icon: Rocket,
-      title: "Launch",
-      desc: "Deployment, optimization, and handoff.",
+      title: t("process_step4_title"),
+      desc: t("process_step4_desc"),
       align: "right",
       nodeProgress: node4Progress,
       nodeTop: "90%",
@@ -196,13 +198,13 @@ export default function Process() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.8 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="flex flex-col items-start gap-1"
+          className="flex flex-col items-center text-center max-w-2xl mx-auto gap-1"
         >
-          <h2 className="text-2xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight text-white mb-2 font-display">
-            How I Work
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight text-[#E8D5F5] mb-2 font-display [text-shadow:0_0_30px_rgba(204,0,255,0.4)]">
+            {t("about_process_header")}
           </h2>
-          <p className="text-xs sm:text-sm text-[#A78BCA] max-w-xl leading-relaxed">
-            A streamlined approach from raw concept to a polished, high-performance web experience.
+          <p className="text-xs sm:text-sm text-[#A78BCA] leading-relaxed">
+            {t("about_process_desc")}
           </p>
         </motion.div>
       </div>

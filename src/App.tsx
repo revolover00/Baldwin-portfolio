@@ -11,6 +11,7 @@ import Splash from "./components/Splash";
 import Ferrofluid from "./components/Ferrofluid";
 import FloatingTechIcons from "./components/FloatingTechIcons";
 import CustomCursor from "./components/CustomCursor";
+import SEO from "./components/SEO";
 import { Store } from "./store";
 import Lenis from "lenis";
 
@@ -183,6 +184,9 @@ export default function App() {
     } else {
       const initialHash = window.location.hash.replace("#", "");
       if (initialHash && ["home", "work", "about", "quote"].includes(initialHash)) {
+        if (isProgrammaticScrollRef.current) {
+          return;
+        }
         isProgrammaticScrollRef.current = initialHash;
         const startTime = Date.now();
         const trySyncScroll = () => {
@@ -259,6 +263,7 @@ export default function App() {
         fontFamily: "'Plus Jakarta Sans', sans-serif"
       }}
     >
+      <SEO />
       <AnimatePresence>
         {showSplash && (
           <Splash key="splash" onComplete={() => setShowSplash(false)} />

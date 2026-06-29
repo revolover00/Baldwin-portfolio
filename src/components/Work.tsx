@@ -3,16 +3,26 @@ import { motion } from "framer-motion";
 import { Project } from "../types";
 import { Store } from "../store";
 import { Briefcase, ArrowRight, Video } from "lucide-react";
+import { useLanguage } from "../context/LanguageContext";
 
 interface WorkProps {
   onNavigate: (route: string) => void;
 }
 
 export default function Work({ onNavigate }: WorkProps) {
+  const { t } = useLanguage();
   const [projects, setProjects] = useState<Project[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState("All");
   const [showAll, setShowAll] = useState(false);
+
+  const translateCategory = (cat: string) => {
+    if (cat === "All") return t("work_tag_all");
+    if (cat === "Web Apps") return t("work_tag_web");
+    if (cat === "Design") return t("work_tag_design");
+    if (cat === "Tech Experiments") return t("work_tag_tech");
+    return cat;
+  };
 
   const categories = ["All", ...Array.from(new Set(projects.map(p => p.category)))].filter(Boolean);
   const filteredProjects = activeCategory === "All" ? projects : projects.filter(p => p.category === activeCategory);
@@ -81,22 +91,20 @@ export default function Work({ onNavigate }: WorkProps) {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="flex items-center space-x-3 mb-6 sm:mb-8"
+        className="flex flex-col items-center text-center mb-10 sm:mb-16 max-w-2xl mx-auto"
       >
         <div 
-          className="p-1.5 sm:p-2.5 rounded-lg"
+          className="p-2 sm:p-3 rounded-xl mb-4"
           style={{ backgroundColor: "rgba(204, 0, 255, 0.1)" }}
         >
-          <Briefcase size={20} className="sm:w-7 sm:h-7" style={{ color: "#CC00FF" }} />
+          <Briefcase size={24} className="sm:w-8 sm:h-8" style={{ color: "#CC00FF" }} />
         </div>
-        <div>
-          <h1 className="text-xl sm:text-3xl md:text-4xl font-extrabold tracking-tight" style={{ color: "#E8D5F5" }}>
-            Selected Work
-          </h1>
-          <p className="text-[10px] sm:text-sm mt-0.5 sm:mt-1" style={{ color: "#A78BCA" }}>
-            A curated showcase of high-performance digital creations and code craft
-          </p>
-        </div>
+        <h1 className="text-2xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight mb-3 sm:mb-4 [text-shadow:0_0_30px_rgba(204,0,255,0.4)]" style={{ color: "#E8D5F5" }}>
+          {t("work_title")}
+        </h1>
+        <p className="text-xs sm:text-base leading-relaxed font-normal" style={{ color: "#A78BCA" }}>
+          {t("work_subtitle")}
+        </p>
       </motion.div>
 
       {/* Category Tabs */}
@@ -116,7 +124,7 @@ export default function Work({ onNavigate }: WorkProps) {
                   : "bg-white/5 border-white/10 text-[#A78BCA] hover:bg-white/10 hover:text-[#E8D5F5]"
               }`}
             >
-              {cat}
+              {translateCategory(cat)}
             </button>
           ))}
         </motion.div>
@@ -225,15 +233,15 @@ export default function Work({ onNavigate }: WorkProps) {
                           color: "#6B4F8A",
                         }}
                       >
-                        +{project.skills.length - 3} more
+                        +{project.skills.length - 3} {t("work_more_skills")}
                       </span>
                     )}
                   </div>
 
                   {/* Footer interactive prompt */}
-                  <div className="flex items-center text-[10px] sm:text-xs font-bold uppercase tracking-wider group-hover/card:translate-x-1 transition-transform duration-300 mt-auto z-20" style={{ color: "#CC00FF" }}>
-                    <span className="mr-1.5 whitespace-nowrap">View Details</span>
-                    <ArrowRight size={12} className="sm:w-3.5 sm:h-3.5" />
+                  <div className="flex items-center text-[10px] sm:text-xs font-bold uppercase tracking-wider group-hover/card:translate-x-1 rtl:group-hover/card:-translate-x-1 transition-transform duration-300 mt-auto z-20" style={{ color: "#CC00FF" }}>
+                    <span className="mr-1.5 rtl:mr-0 rtl:ml-1.5 whitespace-nowrap">{t("work_btn_details")}</span>
+                    <ArrowRight size={12} className="sm:w-3.5 sm:h-3.5 rtl:rotate-180" />
                   </div>
                 </div>
               </motion.div>
@@ -252,9 +260,9 @@ export default function Work({ onNavigate }: WorkProps) {
                 className="group relative px-8 py-3 rounded-full font-bold uppercase tracking-widest text-[10px] sm:text-xs overflow-hidden transition-all duration-300 gothic-card border border-[#CC00FF]/30 hover:border-[#CC00FF]/60 text-[#E8D5F5] hover:text-white"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-[#CC00FF]/0 via-[#CC00FF]/5 to-[#CC00FF]/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
-                <span className="relative z-10 flex items-center space-x-2">
-                  <span>{showAll ? "Show Less" : "View All Projects"}</span>
-                  <ArrowRight size={14} className={`transition-transform duration-300 ${showAll ? "-rotate-90" : "rotate-90 sm:rotate-0"}`} />
+                <span className="relative z-10 flex items-center space-x-2 rtl:space-x-reverse">
+                  <span>{showAll ? t("work_btn_show_less") : t("work_btn_view_all")}</span>
+                  <ArrowRight size={14} className={`transition-transform duration-300 ${showAll ? "-rotate-90" : "rotate-90 sm:rotate-0 rtl:rotate-180"}`} />
                 </span>
               </button>
             </motion.div>

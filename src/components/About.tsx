@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import ProfileCard from "./ProfileCard";
 import Process from "./Process";
+import { useLanguage } from "../context/LanguageContext";
 import { 
   Code2, 
   Database, 
@@ -185,6 +186,7 @@ function CountUp({ value }: { value: string }) {
 }
 
 export default function About() {
+  const { t } = useLanguage();
   const [githubRepos, setGithubRepos] = useState<string>("24+");
 
   useEffect(() => {
@@ -257,16 +259,16 @@ export default function About() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.5, ease: "easeOut" }}
-            className="text-left space-y-4 sm:space-y-6 max-w-3xl"
+            className="text-center space-y-4 sm:space-y-6 max-w-2xl mx-auto"
           >
-            <h2 className="text-2xl sm:text-4xl md:text-5.5xl font-black tracking-tight [text-shadow:0_0_30px_rgba(204,0,255,0.4)]" style={{ color: "#E8D5F5" }}>
-              Baldwin Portfolio
+            <h2 className="text-2xl sm:text-4xl md:text-5.5xl font-black uppercase tracking-tight [text-shadow:0_0_30px_rgba(204,0,255,0.4)]" style={{ color: "#E8D5F5" }}>
+              {t("about_title")}
             </h2>
             
             <p 
               className="text-xs sm:text-base sm:text-lg leading-relaxed text-[#A78BCA]"
             >
-              I build full-stack web experiences using the latest AI tools. From idea to deployment — fast, clean, and professional.
+              {t("about_subtitle")}
             </p>
           </motion.div>
 
@@ -293,12 +295,12 @@ export default function About() {
           transition={{ duration: 0.4, ease: "easeOut" }}
           className="space-y-6"
         >
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-3 rtl:space-x-reverse">
             <div className="p-1.5 sm:p-2.5 rounded-xl flex items-center justify-center animate-pulse" style={{ backgroundColor: "rgba(204, 0, 255, 0.1)" }}>
               <Cpu size={16} className="sm:w-5 sm:h-5" style={{ color: "#CC00FF" }} />
             </div>
             <h3 className="text-lg md:text-2xl font-bold tracking-tight" style={{ color: "#E8D5F5" }}>
-              Core Technical Skills
+              {t("about_skills_header")}
             </h3>
           </div>
 

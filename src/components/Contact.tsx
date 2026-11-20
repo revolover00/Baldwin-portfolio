@@ -54,11 +54,8 @@ export default function Contact() {
       const sanitizedSubject = escapeHtml(subject.trim());
       const sanitizedBody = escapeHtml(body.trim());
 
-      await Store.saveMessage({
-        senderEmail: sanitizedEmail,
-        subject: sanitizedSubject,
-        body: sanitizedBody
-      });
+      const resp = await fetch("/api/contact", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ senderEmail: sanitizedEmail, subject: sanitizedSubject, body: sanitizedBody }) });
+      if (!resp.ok) { const j:any = await resp.json().catch(()=>({error: resp.statusText})); throw new Error(j.error || `HTTP ${resp.status}`); }
 
       setIsSubmitting(false);
       setFormState("success");

@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
-import { useLanguage, Language } from "../context/LanguageContext";
+import { useLanguage } from "../context/LanguageContext";
+import type { Language } from "../context/languageData";
 
 export default function LanguageSwitcher() {
   const [isOpen, setIsOpen] = useState(false);
